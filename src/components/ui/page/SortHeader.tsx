@@ -1,27 +1,33 @@
+import { useCategoryClassList } from "@/hook/class";
 import { useEffect, useState } from "react";
 
 const SortHeader = ({
     title = '',
-    result = (val:any) => {}
 }) => {
 
-    const [active, setActive] = useState('a')
+    const [active, setActive] = useState('1')
+
+    const [filter, setFilter] = useCategoryClassList()
+
     useEffect(() => {
-        result(active)
+        setFilter({
+            ...filter,
+            sort: active
+        })
     }, [active])
 
     const sortBtns = [
         {
             name: '최신순',
-            value: 'a',
+            value: '1',
         },
         {
             name: '추천순',
-            value: 'b',
+            value: '2',
         },
         {
             name: '인기순',
-            value: 'c',
+            value: '3',
         },
     ]
 

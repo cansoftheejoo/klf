@@ -4,6 +4,8 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 // Import Swiper styles
 import 'swiper/css';
 import VideoCard from '@/components/ui/article/VideoCard';
+import { useQuery } from 'react-query';
+import { getMainVideo } from '@/pages/api/main';
 
 const MainVideo = ({
     title = ''
@@ -14,6 +16,24 @@ const MainVideo = ({
             data: [0,0,0,0,0,0,0,0,0]
         }
     }
+
+    const id = title == '무료 강의' ? 'free' : 'new'
+
+    const { data, status } = useQuery(`getMainVideo-${id}`, getMainVideo(id, 10), {
+        onSuccess: res => {
+            // console.log(res)
+        }
+    })
+
+
+    if(status == 'loading'){
+        return <p></p>
+    }
+
+    if (status == 'error') {
+        return <p>데이터 로딩 문제가 발생했습니다</p>;
+    }
+
 
     return (
         <div className="container">
@@ -54,11 +74,25 @@ const MainVideo = ({
                  
               }}
             >
-                 {getBanner?.data?.data.map(({
-                    idx, link, img, title1, title2, newWinYN
-                }:any, i) => (
-                <SwiperSlide key={`MainVideo-${i}`} >
-                    <VideoCard light={title == '무료 강의' ? true : false} />
+                 {data?.map(({
+                      no,
+                      title,
+                      store_name,
+                      category,
+                      keyword,
+                      list_keyword,
+                      amount,
+                      pay_amount,
+                      duration,
+                      poster_url,
+                }:any, i:number) => (
+                <SwiperSlide key={`MainVideo-${no}`} >
+                    <VideoCard 
+                    light={title == '무료 강의' ? true : false} 
+                    title={title}
+                    store_name={store_name}
+                    poster_url={poster_url}
+                    />
                 </SwiperSlide>
                  ))}
     

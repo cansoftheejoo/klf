@@ -3,23 +3,24 @@ import Link from 'next/link';
 import logo from '/public/images/logo-gray.png';
 import Image from 'next/image';
 import { useQuery } from 'react-query';
-import { getFooterInfo } from '@/pages/api/get';
 import styles from './dist/Footer.module.css';
+import { getFooterInfo } from '@/pages/api/layout';
+import { footerInfoType } from '@/type/layout';
 
 
 const Footer = () => {
 
-    const getFooter = useQuery('getFooterInfo', getFooterInfo, {
+    const { data, status } = useQuery('getFooterInfo', getFooterInfo, {
         onSuccess: res => {
             // console.log(res.data)
         }
     })
 
-    if(getFooter.isLoading){
+    if(status == 'loading'){
         return  <footer className={styles.footer}></footer>;
     }
 
-    if (getFooter.isError) {
+    if (status == 'error') {
         return <p>사이트정보 가져오는 동안 문제가 발생했습니다</p>;
     }
 
@@ -31,9 +32,9 @@ const Footer = () => {
                 <div className='inner'>
                     <div className={styles.inner}>
                         <div className='left'>
-                            <Link href={'/policy?type='}>공지사항</Link>
-                            <Link href={'/policy?type=B'}>이용약관</Link>
-                            <Link href={'/policy?type=A'}>개인정보취급방침</Link>
+                            <Link href={'/notice'}>공지사항</Link>
+                            <Link href={'/policy/policy'}>이용약관</Link>
+                            <Link href={'/policy/private'}>개인정보취급방침</Link>
                         </div>
                         <ul className="right">
                             <li><Link href={'/faq'}>자주묻는 질문</Link></li>
@@ -48,24 +49,24 @@ const Footer = () => {
                         <div className={styles.footerLogo}>
                             <Image
                                 src={logo}
-                                alt="FCLAW"
+                                alt={data?.company_info.name ?? '-'}
                                 height={65}
                             />
                         </div>
                         <div className={styles.info}>
-                            <p className={styles.company}>{getFooter?.data?.data?.companyName ?? '-'}</p>
+                            <p className={styles.company}>{data?.company_info.name ?? '-'}</p>
                             <div className={styles.info}>
-                                <span>대표이사: {getFooter?.data?.data?.companyCeo ?? '-'}</span>
-                                <span>개인정보보호책임자: {getFooter?.data?.data?.companyInformationManager ?? '-'}</span>
+                                <span>대표이사: {data?.company_info.ceo ?? '-'}</span>
+                                <span>개인정보보호책임자: {data?.company_info.personal_manager ?? '-'}</span>
                                 <br />
-                                <span>사업자등록번호: {getFooter?.data?.data?.companyBusinessNumber ?? '-'}</span>
+                                <span>사업자등록번호: {data?.company_info.business_number ?? '-'}</span>
                                 <br />
-                                <span>email: {getFooter?.data?.data?.companyEmail ?? '-'}</span>
-                                <span>개인정보보호책임자 이메일: {getFooter?.data?.data?.companyInformationManagerEmail ?? '-'}</span>
+                                <span>email: {data?.contact.email ?? '-'}</span>
+                                <span>개인정보보호책임자 이메일: {data?.company_info.personal_manager_email ?? '-'}</span>
                                 <br />
-                                <span>주소: {getFooter?.data?.data?.companyAddress ?? '-'}</span>
+                                <span>주소: {data?.contact.address ?? '-'}</span>
                             </div>
-                            <p className={styles.copyright}>© Cubefc Corp. All Rights Reserved.</p>
+                            <p className={styles.copyright}>{data?.company_info.copyright}</p>
                         </div>
                       
                     </div>

@@ -6,6 +6,7 @@ import logo from '/public/images/logo.png';
 import styles from './Header.module.css';
 import { checkLogin } from '@/pages/api/auth';
 import { Icon } from '@iconify/react';
+import { useCheckSignIn, useSignOut } from '@/hook/common';
 
 
 
@@ -14,7 +15,9 @@ const Header = () => {
     const router = useRouter()
     const { pathname } = router
 
-    const [isLoggedIn, setIsLoggedIn] = useState(true);
+    const isLoggedIn = useCheckSignIn();
+
+    const signOut = useSignOut()
 
     // useEffect(() => {
     //     let check = checkLogin()
@@ -58,15 +61,24 @@ const Header = () => {
     
                           
                         </div>
+                        
                         <div className={styles.web}>
-                            <Link 
-                            href={'/login'}
-                            className={styles.myBtn}
-                            >로그인</Link>
-                             <Link 
-                            href="/mypage/info"
-                            className={styles.myBtn}
-                            >나의 강의</Link>
+                            {isLoggedIn ? (
+                                <>
+                                <button className={styles.myBtn} onClick={() => signOut()}>로그아웃</button>
+                                <Link 
+                                href="/mypage/info"
+                                className={styles.myBtn}
+                                >나의 강의</Link>
+                                </>
+                            ) : (
+                                <Link 
+                                href={'/login'}
+                                className={styles.myBtn}
+                                >로그인</Link>
+                            )}
+                           
+                            
                         </div>
                     </div>
                 </div>

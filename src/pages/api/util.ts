@@ -1,7 +1,7 @@
 import axios from "axios";
 import { logout, refreshToken } from "./auth";
 
-export const BASE_URL = 'http://fclow.welldayshop.gethompy.com/api';
+export const BASE_URL = 'http://admin.franchise-online.co.kr/api';
 
 // axios 인스턴스 설정
 const axiosApi = (url:any, options?:any) => {

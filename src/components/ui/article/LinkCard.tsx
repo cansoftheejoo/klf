@@ -1,18 +1,19 @@
 import Link from "next/link";
 
 const LinkCard = ({
+    no = '',
     title = '',
     contents = '',
     btn = '',
-    link = '',
+    setFilter = () => {}
 }) => {
+
+
     return (
         <div className="container">
             <h5>{title}</h5>
             <p>{contents}</p>
-            <Link href={link}>
-                <div className="btn">{btn}</div>
-            </Link>
+            <button className="btn" onClick={setFilter}>{btn}</button>
             <style jsx>{`
                 .container{background: #444; border: 1px solid #666; border-radius: 5px; padding: 55px 45px; width: 100%;}
                 .container h5{font-size: 20px; margin-bottom: 35px;}

@@ -10,6 +10,8 @@ import styles from './dist/MainBanner.module.css';
 import { useQuery } from 'react-query';
 // import { getMainBanner } from '@/pages/api/get';
 import Link from 'next/link';
+import { getMainBanner } from '@/pages/api/main';
+import { imgUrl } from '@/util/common';
 
 
 interface Banner {
@@ -25,20 +27,20 @@ interface Banner {
 const MainBanner = () => {
 
     
-    // const getBanner = useQuery('getMainBanner', getMainBanner, {
-    //     onSuccess: res => {
-    //         // console.log(res)
-    //     }
-    // })
+    const { data, status } = useQuery('getMainBanner', getMainBanner, {
+        onSuccess: res => {
+            // console.log(res)
+        }
+    })
 
 
-    // if(getBanner.isLoading){
-    //     return <div className={styles.container}><div className={styles.empty}></div></div>
-    // }
+    if(status == 'loading'){
+        return <div className={styles.container}><div className={styles.empty}></div></div>
+    }
 
-    // if (getBanner.isError) {
-    //     return <p>배너를 가져오는 동안 문제가 발생했습니다</p>;
-    // }
+    if (status == 'error') {
+        return <p>배너를 가져오는 동안 문제가 발생했습니다</p>;
+    }
     
 
     return (
@@ -73,47 +75,29 @@ const MainBanner = () => {
                    
                 }}
               >
-                {/* {getBanner?.data?.data.map(({
-                    idx, link, img, title1, title2, newWinYN
-                }:any) => (
-                <SwiperSlide key={idx} >
+                {data?.map(({
+                    img,
+                    link,
+                    target,
+                    title,
+                    sub_title,
+                    contents,
+                }:any, i:number) => (
+                <SwiperSlide key={i} >
           
-                    <div className={styles.slide} key={idx} style={{backgroundImage: `url(${img})`}}>
-                        <Link href={link ? link : '/'} target={newWinYN == 'y' ? '_blank' : '_self'}>
+                    <div className={styles.slide} style={{backgroundImage: `url(${imgUrl(img)})`}}>
+                        <Link href={link ? link : '/'} target={target == 'new' ? '_blank' : '_self'}>
                          
-                                <h3>가맹사업법령 강의 오픈</h3>
-                                <p className={styles.sub}>
-                                    프렌차이즈 로펌 단독오픈 <br />
-                                    홍길동 변호사 특강
-                                </p>
-                                <p className={styles.info}>
-                                프랜차이즈 로펌에서는 가맹본부와 가맹점사업자가 법을 준수하여 <br />
-                                함께 성장할 수 있는 기업문화를 만들어 가는데 도움이 될 수 있도록 노력하겠습니다.
-                                </p>
+                                <h3>{title}</h3>
+                                <p className={styles.sub}>{sub_title}</p>
+                                <p className={styles.info}>{contents}</p>
                         </Link>
                     </div>
                    
                 </SwiperSlide>
-                 ))} */}
+                 ))}
 
-                <SwiperSlide  >
-                    
-                    <div className={styles.slide} style={{backgroundImage: `url(https://plus.unsplash.com/premium_photo-1661333820879-517c5e808bfe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2104&q=80)`}}>
-                        <Link href={'/'}>
-                        
-                                <h3>가맹사업법령 강의 오픈</h3>
-                                <p className={styles.sub}>
-                                    프렌차이즈 로펌 단독오픈 <br />
-                                    홍길동 변호사 특강
-                                </p>
-                                <p className={styles.info}>
-                                프랜차이즈 로펌에서는 가맹본부와 가맹점사업자가 법을 준수하여 <br />
-                                함께 성장할 수 있는 기업문화를 만들어 가는데 도움이 될 수 있도록 노력하겠습니다.
-                                </p>
-                        </Link>
-                    </div>
-                    
-                </SwiperSlide>
+               
     
               
     

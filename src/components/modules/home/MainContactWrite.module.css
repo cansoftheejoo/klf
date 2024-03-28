@@ -1,0 +1,25 @@
+.container{background-color: #fff; width: 500px; max-width: 100%; border-radius: 10px;}
+.container header{padding: 15px; border-bottom: 1px solid #ddd;}
+.container header h2{font-size: 20px; color: #333}
+.container .contents{max-height: 70vh; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 10px;}
+.container .contents table{width: 100%; color: #333}
+.container .contents table th{font-size: 13px; font-weight: 400; text-align: left; width: 80px;}
+.container .contents table th::before{content: "*";}
+.container .contents table td{padding: 5px;}
+.container .contents textarea{height: 100px; width: 100%; border: 1px solid #ddd; resize: none; padding: 10px; color: #333}
+.container .contents textarea:focus{outline: 1px solid var(--color1);}
+.container .contents input{width: 100%; height: 40px; border: 1px solid #ddd; background-color: #fff; color: #333}
+.container .contents .input{margin: 10px 0; display: flex; flex-wrap: wrap; gap: 10px;}
+.container .contents .input label input{display: none;}
+.container .contents .input label span{display: inline-flex; align-items: center; gap: 5px;}
+.container .contents .input label span b{color: #ccc; display: inline-block; line-height: 1; font-size: 24px;}
+.container .contents .input label input:checked ~ span b{color: var(--color1);}
+
+.container .contents .user{display: flex; gap: 10px;}
+
+.container .btns{display: flex; align-items: center; width: 100%; gap: 10px; padding: 20px;}
+.container .btns button{flex: 1;}
+
+.cdoe{padding: 20px; display: flex; flex-wrap: wrap; gap: 8px;}
+.cdoe button{border: 1px solid #ddd; padding: 5px 8px; border-radius: 3px;}
+.cdoe button.active{background-color: var(--color1); color: #fff}

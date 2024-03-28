@@ -1,19 +1,50 @@
 import ClassCard from "@/components/ui/article/ClassCard";
+import { getMainVideo } from "@/pages/api/main";
+import { useQuery } from "react-query";
 
 const MainClass = () => {
 
     const sample = [0,0,0];
 
+    
+    const { data, status } = useQuery(`getMainVideo-recom`, getMainVideo('recom', 3), {
+        onSuccess: res => {
+            // console.log(res)
+        }
+    })
+
+
+    if(status == 'loading'){
+        return <p></p>
+    }
+
+    if (status == 'error') {
+        return <p>데이터 로딩 문제가 발생했습니다</p>;
+    }
+
+    if(!data) return
+
     return (
         <div className="inner">
             <div className="container">
-                {sample.map((e, i) => (
+                {data?.map(({
+                    no,
+                    title,
+                    store_name,
+                    category,
+                    keyword,
+                    list_keyword,
+                    amount,
+                    pay_amount,
+                    duration,
+                    poster_url,
+                }:any, i:number) => (
                 <ClassCard
-                    key={`MainClass-ClassCard-${i}`}
+                    key={`MainClass-ClassCard-${no}`}
                     link="/"
-                    img=""
-                    title="프랜차이즈 본사 설립 절차 한눈에 보기"
-                    maker="변호사 홍길동"
+                    poster_url={poster_url}
+                    title={title}
+                    maker={store_name}
                     min={10}
                 />
                 ))}

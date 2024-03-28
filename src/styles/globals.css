@@ -45,18 +45,20 @@ body{background-color: #333332;}
 .nothing{text-align: center; color: #888; padding: 50px 0; font-size: 13px;}
 
 /* 버튼 */
-.mBtn{padding: 10px 15px; border-radius: 3px; font-size: 15px; text-align: center;}
+.mBtn{display: inline-block; padding: 10px 15px; border-radius: 3px; font-size: 15px; text-align: center;}
 .nBtn{font-size: 16px; height: 35px; display: inline-flex; align-items: center; justify-content: center; gap: 5px;}
 
-.rBtn{border-radius: 100px; padding: 0 22px;}
+.rBtn{border-radius: 100px; padding-right: 22px; padding-left: 22px;}
 .wBtn{width: 100%; display: block;}
 
-.sColor1{background: var(--color1); color: #fff}
+.sColor1{background: var(--color1); color: #333}
 .sColor1:hover{background: #eea01a;}
 .sColor2{background: var(--color-brown); color: #fff}
 .sColorG{background: #ccc; color: #777}
 .sColorG:hover{background: #999; color: #fff;}
 
+.bColorG{border: 1px solid #ccc;}
+.bColor1{color: var(--color1); border: 1px solid  var(--color1);}
 .bColorF{border: 1px solid #ccc; color: #ccc}
 .bColorF:hover{background: rgba(255,255,255,0.1);}
 

@@ -14,7 +14,10 @@ const ClassViewContents = () => {
     return (
         <div>
             <div className="videoArea">
-                <div className="video"></div>
+                <div className="video">
+                  
+                    <iframe width='auto' height='undefined' src='https://play.mbus.tv/hls/18e5031f12743257' frameborder='0' allowfullscreen style={{ width: '100%', height: 550 }} ></iframe>
+                </div>
             </div>
             <div className="action">
                 <button>
@@ -53,7 +56,7 @@ const ClassViewContents = () => {
             </div>
             <style jsx>{`
                 .videoArea{border-bottom: 5px solid #1c1c1c; padding-bottom: var(--vertical-padding);}
-                .video{padding-top: 60%; background: #222;}
+                .video{background: #222;}
 
                 .action{display: none; align-items: center; justify-content: flex-end; gap: 10px;}
 

@@ -1,14 +1,32 @@
+import { getCategory } from "@/pages/api/main";
 import Link from "next/link";
+import { useQuery } from "react-query";
 
 const CategorySub = () => {
 
-    const sapmle = [0,0,0,0,0,0,0,0];
+
+    const { data, status } = useQuery('getCategory', getCategory, {
+        onSuccess: res => {
+            // console.log(res)
+        }
+    })
+
+
+    if(status == 'loading'){
+        return <p></p>
+    }
+
+    if (status == 'error') {
+        return <p>데이터 로딩 문제가 발생했습니다</p>;
+    }
     
     return (
         <div className="inner">
             <div className="container">
-                {sapmle.map((e, i) => (
-                <Link href={'/category'} key={`sub-category-${i}`}><span className="btn">가맹사업법령</span></Link>
+                {data && data?.map(({
+                    no, cate_name, category_id, img_name
+                }:any, i:number) => (
+                <Link href={`/category/${no}`} key={`sub-category-${i}`}><span className="btn">{cate_name}</span></Link>
                 ))}
             </div>
 

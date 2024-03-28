@@ -1,10 +1,29 @@
 import { useState } from "react";
 import bg from '/public/images/count-banner-bg.png';
+import { useQuery } from "react-query";
+import { getVideoCount } from "@/pages/api/main";
 
 const MainCountBanner = () => {
 
     const [categoryCount, setCategoryCount] = useState(123)
     const [classCount, setClassCount] = useState(123)
+
+    const { data, status } = useQuery(`getVideoCount`, getVideoCount, {
+        onSuccess: res => {
+            // console.log(res)
+
+        }
+    })
+
+
+    if(status == 'loading'){
+        return <p></p>
+    }
+
+    if (status == 'error') {
+        return <p>데이터 로딩 문제가 발생했습니다</p>;
+    }
+
 
     return (
         <div className="inner">
@@ -13,13 +32,13 @@ const MainCountBanner = () => {
                 <div className="num">
                     <span>준비된 강의</span>
                     <div className="area">
-                        {categoryCount.toString().split('').map((num, i) => (
+                        {data?.category_cnt.toString().split('').map((num:string, i) => (
                         <b key={`categoryCount-${i}`}>{num}</b>
                         ))}
                         <span>개 영역</span>
                     </div>
                     <div className="area">
-                        {classCount.toString().split('').map((num, i) => (
+                        {data?.online_cnt.toString().split('').map((num:string, i) => (
                         <b key={`categoryCount-${i}`}>{num}</b>
                         ))}
                         <span>개 강의</span>

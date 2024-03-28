@@ -23,6 +23,9 @@
 
 .header .web{display: flex; align-items: center; gap: 20px;}
 .header .web a{color: #fff}
+.header .web button{color: #fff}
+
+.myBtn{font-size: 15px;}
 
 @media (max-width: 1400px) {
     .header{z-index: 99999;}

@@ -3,7 +3,7 @@ import { instanceWithAuth, instanceWithDefault } from "./util";
 
 export const getData = async (url:string, params?:any) => {
     return await instanceWithDefault.get(url, { params: params })
-    .then(res => res )
+    .then(res => res.data )
     .catch(err => console.log(err));
     // return data; 
 }
@@ -19,13 +19,6 @@ export const getUserData = async (url:any, params?:any) => {
 
 // 회원가입 항목
 export const getSignupItem = async () => await getData('/auth.php?trace=codeList');
-
-// 회원가입 약관
-export const getPolicy = async () => await getData('/home.php?trace=terms');
-
-
-// 푸터 정보
-export const getFooterInfo = async () => await getData('/home.php?trace=info');
 
 // 자주묻는 질문
 export const getFAQList = async () => await getData('/faq.php?trace=list');
@@ -50,25 +43,6 @@ export const getNoticeView = ({
     idx: idx,
 });
 
-
-/**
- * 메인화면
- */
-
-// 메인배너
-export const getMainBanner = async () => await getData('/home.php?trace=banner');
-
-// 메인화면 변호사 리스트
-export const getMainList = (type: string) => async () => await getData(`/home.php?trace=${type == '변호사' ? 'lawyer' : 'union'}`);
-
-// 메인화면 가맹사 리스트
-export const getMainListTrade = async () => await getData('/home.php?trace=union');
-
-// 메인화면 사례찾기
-export const getMainCase = async () => await getData('/home.php?trace=couseling');
-
-// 메인화면 사례찾기
-export const getMainNotice = async () => await getData('/home.php?trace=notice');
 
 
 /**

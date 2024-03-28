@@ -1,26 +1,70 @@
 import VideoCard from "@/components/ui/article/VideoCard";
 import MoreBtn from "@/components/ui/btn/MoreBtn";
+import { useCategoryClassList } from "@/hook/class";
+import { getCategoryClassList } from "@/pages/api/class";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { useQuery } from "react-query";
 
-const CategpryList = ({
+const CategoryList = ({
     sort = 'a'
 }) => {
 
-    const [listSort, setListSort] = useState('a')
-    
-    useEffect(() => {
-        setListSort(sort)
-    }, [sort])
+    const router = useRouter()
 
-    const data = [0,0,0,0,0,0,0,0,0,0,0]
+    const no = router.query?.no as string
+
+    const [filter, setFilter] = useCategoryClassList()
+
+    useEffect(() => {
+        setFilter({
+            ...filter,
+            category: no,
+        })
+    },[no])
+
     
+    const { data, status } = useQuery([`getCategoryClassList${no}`, filter], getCategoryClassList({
+        category: filter?.category ?? '1',
+        sort: filter?.sort ?? '1',
+        nowPage: filter?.nowPage ?? 1,
+
+    }), {
+        onSuccess: res => {
+            // console.log(res)
+        }
+    })
+
+
+    if(status == 'loading'){
+        return <p></p>
+    }
+
+    if (status == 'error') {
+        return <p>데이터 로딩 문제가 발생했습니다</p>;
+    }
+
     return (
         <div className="container">
             <div className="list">
-                {data.map((e, i) => (
+                {data?.data?.map(({
+                    no,
+                    title,
+                    store_name,
+                    category,
+                    keyword,
+                    list_keyword,
+                    amount,
+                    pay_amount,
+                    duration,
+                    poster_url,
+                }:any, i) => (
                     <VideoCard 
-                    key={`CategpryList${i}`}
+                    key={`CategoryList${no}`}
                     light={true}  
+                    title={title}
+                    store_name={store_name}
+                    poster_url={poster_url}
                     />
                 ))}
             </div>
@@ -59,4 +103,4 @@ const CategpryList = ({
     );
 }
 
-export default CategpryList;
+export default CategoryList;

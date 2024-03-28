@@ -1,8 +1,10 @@
+import Image from "next/image";
 import Link from "next/link";
+import ThumbnailImg from "../thumbnail/ThumbnailImg";
 
 const ClassCard = ({
     link = '',
-    img = '',
+    poster_url = '',
     title = '',
     maker = '',
     min = 0,
@@ -11,7 +13,9 @@ const ClassCard = ({
         <>
             <div className="container">
                 <Link href={link}>
-                    <i className="img"></i>
+                    <ThumbnailImg
+                        img={poster_url}
+                    />
                     <div className="txt">
                         <h5 className="ellipsis1">{title}</h5>
                         <p>{maker} ・ {min}분</p>
@@ -21,7 +25,7 @@ const ClassCard = ({
                 </Link>
             </div>
             <style jsx>{`
-                .container{background-color: #fff; border-radius: 10px; overflow: hidden; border: 1px solid #666; width: 100%; max-width: 500px;}
+                .container{flex: 1; max-width: 450px; background-color: #fff; border-radius: 10px; overflow: hidden; border: 1px solid #666; }
                 .img{display: block; height: 220px; background: #ccc no-repeat center center/cover;}
                 .txt{padding: 20px;}
                 .txt h5{font-size: 16px; font-weight: 500; color: #333}

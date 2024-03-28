@@ -1,25 +1,74 @@
 import LinkCard from "@/components/ui/article/LinkCard";
+import { getCustomInquiry } from "@/pages/api/main";
+import { useQuery } from "react-query";
+import MainContactWrite from "./MainContactWrite";
+import { useState } from "react";
 
 const MainContact = () => {
+
+    // getCustomInquiry
+
+
+    
+    const [filter, setFilter] = useState({
+        type: '',
+        title: '',
+        active: false,
+    })
+
+    const toggle = () => setFilter({
+        ...filter,
+        active: !filter.active
+    })
+
+
+    const { data, status } = useQuery('getCustomInquiry', getCustomInquiry, {
+        onSuccess: res => {
+            // console.log(res)
+        }
+    })
+
+    if(status == 'loading'){
+        return <div></div>
+    }
+
+    if (status == 'error') {
+        return <p>배너를 가져오는 동안 문제가 발생했습니다</p>;
+    }
+
+    if(!data) return
+    
+
     return (
         <div className="container">
             <div className="inner">
+                {data.map(({
+                    no,
+                    title,
+                    sub_title,
+                    btn_name,
+                }:any) => (
                 <LinkCard 
-                    title="강의 참여 신청"
-                    contents="소상공인시장진흥공단과의 협업을 통해, 더 다양한 판매자분들이 톡스토어을 활용한 판매활동이 더 유익해질 수 있도록 소상공인 지원 프로그램을 준비했습니다. 톡스토어x소진공 지원프로그램 모집내용 톡스토어 전문강사의 코칭 교육참여"
-                    btn="강의 참여하기"
+                    key={`MainContact${no}`}
+                    no={no}
+                    title={title}
+                    contents={sub_title}
+                    btn={btn_name}
+                    setFilter={() => {
+                        setFilter({
+                            type: no,
+                            title: title,
+                            active: true,
+                        })
+                    }}
                 />
-                <LinkCard 
-                    title="단체 교육 문의"
-                    contents="소상공인시장진흥공단과의 협업을 통해, 더 다양한 판매자분들이 톡스토어을 활용한 판매활동이 더 유익해질 수 있도록 소상공인 지원 프로그램을 준비했습니다. 톡스토어x소진공 지원프로그램 모집내용 톡스토어 전문강사의 코칭 교육참여"
-                    btn="문의하기"
-                />
-                <LinkCard 
-                    title="제휴 문의"
-                    contents="소상공인시장진흥공단과의 협업을 통해, 더 다양한 판매자분들이 톡스토어을 활용한 판매활동이 더 유익해질 수 있도록 소상공인 지원 프로그램을 준비했습니다. 톡스토어x소진공 지원프로그램 모집내용 톡스토어 전문강사의 코칭 교육참여"
-                    btn="문의하기"
-                />
+                ))}
+               
             </div>
+            <MainContactWrite 
+                filter={filter}
+                toggle={toggle}
+            />
             <style jsx>{`
                 .container{background: #292929; padding: 110px 0;}
                 .inner{display: flex; gap: 32px; align-items: stretch; justify-content: center;}

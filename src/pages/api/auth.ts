@@ -1,4 +1,6 @@
+import { deleteCookie } from "@/util/common";
 import { instanceWithDefault } from "./util";
+import { useQueryClient } from "react-query";
 // import { getSession } from 'next-auth/react'
 
 // export default async function auth(req:any, res:any) {
@@ -16,14 +18,15 @@ import { instanceWithDefault } from "./util";
 
 export const refreshToken = async () => {
     try {
-        const res = localStorage.getItem('user');
+        const user = localStorage.getItem('user');
         const token = localStorage.getItem('refreshToken');
-        if (token) {
-            const response:any = await instanceWithDefault.post('/auth.php?trace=refresh', {
+        if (token && user) {
+            const userJson = JSON.parse(user)
+            const response:any = await instanceWithDefault.post('/authorization.php?trace=refresh', {
+                type : userJson.type,  // 회원타입
                 refreshToken: token
             }); // 토큰
 
-            console.log(response)
             
             if(response?.data.result == 'success'){
                 const { accessToken, refreshToken } = response.data;
@@ -47,9 +50,15 @@ export const refreshToken = async () => {
   };
   
 export const logout = () => {
+    const queryClient = useQueryClient()
     localStorage.removeItem('user')
-    localStorage.removeItem('accessToken')
-    localStorage.removeItem('refreshToken')
+    localStorage.removeItem('access_token')
+    localStorage.removeItem('refresh_token')
+
+    deleteCookie('access_token')
+
+    // 로그아웃시 사용자 데이터 remove
+    queryClient.clear();
 }
 
 export const checkLogin = () => {
