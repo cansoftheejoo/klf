@@ -6,6 +6,7 @@ import { getCategoryInfo } from "@/pages/api/class";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useQuery } from "react-query";
+import CategoryLayout from "../layout";
 
 const CategoryScreen = () => {
 
@@ -17,34 +18,37 @@ const CategoryScreen = () => {
      
     const { data, status } = useQuery(`getCategoryInfo${no}`, getCategoryInfo({ no: no }), {
         onSuccess: res => {
-            console.log(res)
+            // console.log(res)
         }
     })
 
 
-    if(status == 'loading'){
-        return 
-    }
+    // if(status == 'loading'){
+    //     return 
+    // }
 
     if (status == 'error') {
-        return <p>배너를 가져오는 동안 문제가 발생했습니다</p>;
+        return <p>강의 리스트를 가져오는 동안 문제가 발생했습니다</p>;
     }
 
+
     return (
-        <>
-            <CategorySub />
-            <div className="inner">
-              
-                <PageHeader
-                    title={data?.cate_name}
-                    cate_name_detail={data?.cate_name_detail}
-                />
-                <SortHeader 
-                    title={data?.cate_name}
-                />
-                <CategpryList  />
+        <CategoryLayout>
+            <div style={{ opacity: status == 'success' ? 1 : 0, transition: 'all 0.6s' }}>
+                {status == 'success' && (
+                    <>
+                        <PageHeader
+                            title={data?.cate_name}
+                            cate_name_detail={data?.cate_name_detail}
+                        />
+                        <SortHeader 
+                            title={data?.cate_name}
+                        />
+                        <CategpryList  />
+                    </>
+                )}
             </div>
-        </>
+        </CategoryLayout>
     );
 }
 

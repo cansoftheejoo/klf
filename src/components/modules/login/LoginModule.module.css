@@ -1,10 +1,16 @@
-.container{min-height: 80vh; padding: 50px 0; display: flex; flex-direction: column; align-items: center; justify-content: center;}
-.container h3{font-size: 20px; text-align: center;}
-.input{max-width: 300px; width: 100%; margin: 0 auto;}
-.loginForm{display: flex; flex-direction: column; gap: 10px; margin: 30px 0;}
-.loginForm button{margin-top: 30px;}
+.container{background-color: #222; max-width: 400px; width: 100%; margin: 100px auto; padding: 50px 30px; border-radius: 10px;}
+.container h3{font-size: 20px; text-align: center; margin-bottom: 30px;}
+.container .loginForm{width: 100%; display: flex; flex-direction: column; gap: 10px; }
 
-.type{display: flex; gap: 10px; margin-bottom: 15px;}
-.type label{flex: 1;}
-.type label input{display: none;}
-.type label input:checked ~ span{color: #fff; background-color: var(--color1); border-color: var(--color1);}
+.container .loginForm .type{display: flex; margin-bottom: 15px; width: 100%;}
+.container .loginForm .type label{flex: 1;}
+.container .loginForm .type label input{display: none;}
+.container .loginForm .type label span{border-bottom: 3px solid #666; color: #999}
+.container .loginForm .type label input:checked ~ span{color: var(--color1); border-color: var(--color1); border-color: var(--color1);}
+
+.container .loginForm .inputs input{width: 100%; margin: 5px 0;}
+
+.container .loginForm .btns{margin-top: 30px; width: 100%;}
+.container .loginForm .btns button{margin-top: 30px; font-weight: 500;}
+
+.container .link{margin-top: 30px;}

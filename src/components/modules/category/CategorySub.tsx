@@ -1,9 +1,12 @@
 import { getCategory } from "@/pages/api/main";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 
 const CategorySub = () => {
 
+    const router = useRouter()
+    const pageNo = router.query?.no as string
 
     const { data, status } = useQuery('getCategory', getCategory, {
         onSuccess: res => {
@@ -26,7 +29,7 @@ const CategorySub = () => {
                 {data && data?.map(({
                     no, cate_name, category_id, img_name
                 }:any, i:number) => (
-                <Link href={`/category/${no}`} key={`sub-category-${i}`}><span className="btn">{cate_name}</span></Link>
+                <Link href={`/category/${no}`} key={`sub-category-${i}`}><span className={`btn ${no == pageNo ? 'active' : ''}`}>{cate_name}</span></Link>
                 ))}
             </div>
 

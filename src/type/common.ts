@@ -5,3 +5,14 @@ export interface SignInReturnType {
     subscription_path?:string;
     type?:string;
 }
+
+// 회원가입 폼 타입
+export interface SignUpType {
+    userid:string;
+    user_nickname?:string;
+    username?:string;
+    userpass?:string;
+    userpassd?:string;
+    company_id?:string;
+    usertel?:string;
+}

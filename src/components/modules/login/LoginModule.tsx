@@ -5,6 +5,7 @@ import { postLogin } from "@/pages/api/member";
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { setCookie } from "@/util/common";
+import { useLogin } from "@/hook/common";
 
 const LoginModule = () => {
 
@@ -22,45 +23,18 @@ const LoginModule = () => {
     // 비밀번호
     const [password, setPassword] = useState('')
 
+    // 로그인 
+    const onLogin = useLogin()
+
     const setLogin = useMutation(postLogin, {
         onSuccess: res => {
             console.log(res)
 
             if(res?.result == 'success'){
 
-        
-                
-                const jsonData = JSON.stringify({
-                    userid: res?.userid,
-                    username: res?.username,
-                    grade: res?.grade,
-                    type: res?.type,
-                    file_name: res?.file_name,
-                    no: res?.no,
-                });
-
-                // const time = maintainLogin ? 20 : 3
-
-                // setCookie('user', jsonData, time)
-                // setCookie('access_token', res.access_token, time)
-                // setCookie('refresh_token', res.refresh_token, time)
-
-                localStorage.setItem('user', jsonData);
-                localStorage.setItem('access_token', res.access_token);
-                localStorage.setItem('refresh_token', res.refresh_token);
-
-                // middleware 사용
-                setCookie('access_token', res.access_token, 20)
-
-
-                // router.push('/');
-                // if(previousPageUrl.split('/')[1] == 'login'){
-                //     router.push('/');
-                // } else {
-                //     router.back()
-                // }
-               
-                location.reload();
+                onLogin({
+                    res: res
+                })
              
             } else {
                 alert(res.message)
@@ -95,28 +69,32 @@ const LoginModule = () => {
         <div className={styles.container}>
             <h3>로그인</h3>
         
-            <div className={styles.input}>
-                <form onSubmit={handleSubmit} className={styles.loginForm}>
+            <div className={styles.loginForm}>
+                <form onSubmit={handleSubmit} >
 
                     <div className={styles.type}>
                         <label>
                             <input type="radio" name="type" onChange={handleTypeChange} value={1} checked={memberType == '1'} />
-                            <span className="mBtn wBtn rBtn bColorF">일반 회원</span>
+                            <span className="mBtn wBtn">일반 회원</span>
                         </label>
                         <label>
                             <input type="radio" name="type" onChange={handleTypeChange} value={2} checked={memberType == '2'}  />
-                            <span className="mBtn wBtn rBtn bColorF">판매자 회원</span>
+                            <span className="mBtn wBtn">판매자 회원</span>
                         </label>
                     </div>
                     
-                    <input name="userid" type="text" placeholder="아이디" required />
-                    <input name="userpass" type="password" placeholder="비밀번호" value={password} onChange={e => setPassword(e.target.value)} required />
+                    <div className={styles.inputs}>
+                        <input name="userid" type="text" placeholder="아이디" required />
+                        <input name="userpass" type="password" placeholder="비밀번호" value={password} onChange={e => setPassword(e.target.value)} required />
+                    </div>
 
-                    <button className="mBtn sColor1" type="submit">{memberType == '1' ? '일반' : '판매자'} 로그인</button>
+                    <div className={styles.btns}>
+                        <button className="mBtn wBtn sColor1" type="submit">{memberType == '1' ? '일반' : '판매자'} 로그인</button>
+                    </div>
                     
                 </form>
                 <div className={styles.link}>
-                    <Link href={`/login/signup/${memberType}`} className="mBtn wBtn sColor2">{memberType == '1' ? '일반' : '판매자'} 회원가입</Link>
+                    <Link href={`/login/signup/${memberType}`} className="mBtn wBtn bColor1">{memberType == '1' ? '일반' : '판매자'} 회원가입</Link>
                 </div>
             </div>
         </div>
