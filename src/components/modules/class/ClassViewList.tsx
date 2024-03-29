@@ -1,16 +1,53 @@
 import VideoVerticalCard from "@/components/ui/article/VideoVerticalCard";
+import { getClassViewSideList } from "@/pages/api/class";
+import { ClassViewType } from "@/type/class";
+import { useRouter } from "next/router";
+import { useQuery } from "react-query";
 
-const ClassViewList = () => {
+const ClassViewList = ({
+    store_id,
+    list_keyword,
+}:ClassViewType) => {
 
-    const data = [0,0,0,0,0,0,0];
+    // const data = [0,0,0,0,0,0,0];
+    const router = useRouter()
+    const idx = router.query?.idx as string
+    
+    const { data, status } = useQuery(`getClassViewSideList`, getClassViewSideList({ 
+        store_id: store_id,
+        list_keyword: list_keyword
+    }), {
+        refetchOnMount: true,
+        onSuccess: res => {
+            // console.log(res)
+        }
+    })
+
+    if(status == 'loading'){
+        return ;
+    }
+
+    if (status == 'error') {
+        return <p>강의 내용을 가져오는 동안 문제가 발생했습니다</p>;
+    }
+
+    if(!data) return
+    if(data?.result == 'error') return
+
+
+    const filterData = data?.filter((obj:any) => obj.no != idx)
 
     return (
         <div>
             <h4>강의 목록</h4>
             <div className="list">
-                {data.map((e, i) => (
-                <VideoVerticalCard key={`ClassViewList${i}`} />
-                ))}
+                {filterData && filterData.length > 0 ? (
+                    filterData.map((item:any, i:number) => (
+                        <VideoVerticalCard key={`ClassViewList${item.no}`}  item={item} />
+                    ))
+                ) : (
+                    <p className="nothing">연관 강의가 없습니다</p>
+                )}
             </div>
 
             <style jsx>{`

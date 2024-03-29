@@ -26,3 +26,14 @@ export const getCookie = (name: string) => {
   
     return null;
 };
+
+export function formatTime(timeString:string) {
+  const [hours, minutes, seconds] = timeString.split(':');
+
+  const h = hours && Number(hours) > 0 ? `${parseInt(hours, 10)}시간` : ''
+  const m = minutes && Number(minutes) > 0 ? `${parseInt(minutes, 10)}분` : ''
+  const s = seconds && Number(seconds) > 0 ? `${parseInt(seconds, 10)}초` : ''
+
+  return h + m + s
+
+}

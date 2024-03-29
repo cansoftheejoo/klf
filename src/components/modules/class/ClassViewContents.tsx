@@ -1,13 +1,27 @@
+import { useCheckSignIn } from "@/hook/common";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import { useRouter } from "next/router";
 import { useState } from "react";
+import styles from './ClassViewContents.module.css'
+import ClassReviewModule from "./ClassReviewModule";
+import { ClassViewType } from "@/type/class";
 
-const ClassViewContents = () => {
+const ClassViewContents = ({
+    item,
+}:{
+    item:ClassViewType
+}) => {
 
-    const [tabActive, setTabActive] = useState(0) 
+    const router = useRouter()
+    const idx = router.query?.idx as string
+
+    const isLoggedIn = useCheckSignIn();
+
+    const [tabActive, setTabActive] = useState(1) 
 
     const tabData = [
         '강의 소개',
-        '강의 내용',
+        // '강의 내용',
         '강의 후기',
     ]
 
@@ -16,7 +30,15 @@ const ClassViewContents = () => {
             <div className="videoArea">
                 <div className="video">
                   
-                    <iframe width='auto' height='undefined' src='https://play.mbus.tv/hls/18e5031f12743257' frameborder='0' allowfullscreen style={{ width: '100%', height: 550 }} ></iframe>
+                  {/* https://play.mbus.tv/[배포id]?label=[로그인한 아이디+study_idx] */}
+                    <iframe 
+                        width='auto'
+                        height='undefined' 
+                        src={`https://play.mbus.tv/${item.object_id}?label=${isLoggedIn?.userid}${idx}`}
+                        frameBorder='0' 
+                        allowFullScreen 
+                        style={{ width: '100%', height: 550 }} 
+                    ></iframe>
                 </div>
             </div>
             <div className="action">
@@ -39,16 +61,27 @@ const ClassViewContents = () => {
                 </div>
                 <div className="tabContents">
                     {tabActive == 0 && (
-                        <p></p>
+                        <div className={styles.classContents}>
+                            {item?.intro && (
+                            <section className={styles.intro}>
+                                <h3>강의 소개</h3>
+                                <div dangerouslySetInnerHTML={{ __html: item?.intro }} />
+                            </section>
+                            )}
+                            {item?.contents && (
+                            <section className={styles.contents}>
+                                <h3>강의 내용</h3>
+                                <div dangerouslySetInnerHTML={{ __html: item?.contents }} />
+                            </section>
+                            )}
+                        </div>
                     )}
 
                     {tabActive == 1 && (
-                        <p></p>
+                        <ClassReviewModule />
                     )}
 
-                    {tabActive == 2 && (
-                        <p></p>
-                    )}
+                
                     {/* {memberData?.qualification && (
                     <dd dangerouslySetInnerHTML={{ __html: memberData?.qualification }} />
                     )} */}

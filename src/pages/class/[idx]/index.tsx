@@ -1,24 +1,88 @@
+"use client"
 import CategorySub from "@/components/modules/category/CategorySub";
 import ClassViewContents from "@/components/modules/class/ClassViewContents";
 import ClassViewHeader from "@/components/modules/class/ClassViewHeader";
 import ClassViewList from "@/components/modules/class/ClassViewList";
 import ClassViewMore from "@/components/modules/class/ClassViewMore";
+import { getClassView, postUpdateVideoView } from "@/pages/api/class";
+import { postUserData } from "@/pages/api/post";
+import { ClassViewType } from "@/type/class";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { useMutation, useQuery } from "react-query";
 
 const ClassScreen = () => {
+
+    const router = useRouter()
+    const idx = router.query?.idx as string
+
+    const [updateParams, setUpdateParams] = useState({
+        channel_id: '',
+        object_id: '',
+        study_idx: '',
+    })
+
+    // 시청 업데이트
+    const setUpdate = useMutation(postUpdateVideoView, {
+        onSuccess: res => {
+            // console.log('setUpdate')
+            // console.log(res)
+        }
+    })
+
+    const { data, status } = useQuery(`getClassView${idx}`, getClassView({ no: idx }), {
+        onSuccess: res => {
+            // console.log(res)
+        }
+    })
+
+    useEffect(() => {
+        setUpdateParams({
+            channel_id: data?.channel_id,
+            object_id: data?.object_id,
+            study_idx: data?.no,
+        })
+    },[data])
+
+    useEffect(() => {
+        return () => {
+            // 시청 업데이트
+            setUpdate.mutate(updateParams)
+        }
+    },[])
+
+    if(status == 'loading'){
+        return ;
+    }
+
+    if (status == 'error') {
+        return <p>강의 내용을 가져오는 동안 문제가 발생했습니다</p>;
+    }
+
+
+    const item:ClassViewType = data
+
     return (
         <>
-           <CategorySub />
+  
             <div className="inner">
                 <div className="container">
                     <div className="header">
-                        <ClassViewHeader />
+                        <ClassViewHeader 
+                            title={item.title}
+                            duration={item.duration}
+                            store_name={item?.store_name}
+                        />
                     </div>
                     <div className="contents">
-                        <ClassViewContents />
+                        <ClassViewContents item={item} />
                     </div>
                     <div className="list">
                        <div className="fix">
-                       <ClassViewList />
+                       <ClassViewList 
+                       store_id={item?.store_id}
+                       list_keyword={item?.list_keyword}
+                       />
                        </div>
                     </div>
                 </div>

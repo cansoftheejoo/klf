@@ -28,7 +28,7 @@ const LoginModule = () => {
 
     const setLogin = useMutation(postLogin, {
         onSuccess: res => {
-            console.log(res)
+            // console.log(res)
 
             if(res?.result == 'success'){
 

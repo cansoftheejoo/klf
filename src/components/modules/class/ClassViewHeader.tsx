@@ -1,16 +1,20 @@
+import { formatTime } from "@/util/common";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import ClassBookMark from "./ClassBookMark";
 
-const ClassViewHeader = () => {
+const ClassViewHeader = ({
+    title = '',
+    duration = '',
+    store_name = '',
+}) => {
     return (
         <div className="container">
             <header>
-                <h3 className="ellipsis1">가맹계약상 숙고기간의 단축 가능성 - 가맹계약서는 숙고기간이 단축되지 않습니다</h3>
-                <p>변호사 김선진 · 11분</p>
+                <h3 className="ellipsis1">{title}</h3>
+                <p>{store_name} · {formatTime(duration)}</p>
             </header>
             <div className="action">
-                <button>
-                    <Icon icon="bi:bookmark-plus" color="#fff" fontSize={26} />
-                </button>
+                <ClassBookMark />
                 <button>
                     <Icon icon="lucide:share" color="#fff" fontSize={26} />
                 </button>

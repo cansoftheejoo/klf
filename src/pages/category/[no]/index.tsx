@@ -1,3 +1,4 @@
+import SubLayout from "@/components/layout/subLayout";
 import CategorySub from "@/components/modules/category/CategorySub";
 import CategpryList from "@/components/modules/category/CategpryList";
 import PageHeader from "@/components/ui/page/PageHeader";
@@ -6,7 +7,7 @@ import { getCategoryInfo } from "@/pages/api/class";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useQuery } from "react-query";
-import CategoryLayout from "../layout";
+
 
 const CategoryScreen = () => {
 
@@ -33,7 +34,7 @@ const CategoryScreen = () => {
 
 
     return (
-        <CategoryLayout>
+        <SubLayout>
             <div style={{ opacity: status == 'success' ? 1 : 0, transition: 'all 0.6s' }}>
                 {status == 'success' && (
                     <>
@@ -48,7 +49,7 @@ const CategoryScreen = () => {
                     </>
                 )}
             </div>
-        </CategoryLayout>
+        </SubLayout>
     );
 }
 

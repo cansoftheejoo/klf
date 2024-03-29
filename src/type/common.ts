@@ -1,8 +1,9 @@
 // 로그인시 리턴되는 정보
 export interface SignInReturnType {
-    member_id?:string;
-    member_name?:string;
-    subscription_path?:string;
+    userid?:string;
+    username?:string;
+    no?:string;
+    grade?:string;
     type?:string;
 }
 

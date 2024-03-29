@@ -10,7 +10,10 @@ export const getData = async (url:string, params?:any) => {
 
 export const getUserData = async (url:any, params?:any) => {
     return await instanceWithAuth.get(url, { params: params })
-    .then(res => res )
+    .then(res => {
+        // console.log(res)
+        return res.data
+    } )
     .catch(err => {
         console.log(err)
     });

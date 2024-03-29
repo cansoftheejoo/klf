@@ -16,7 +16,7 @@ const MypageLayout = ({
 
     const onLogout = () => {
         if(confirm('로그아웃 하시겠습니까?')){
-            logout();
+            // logout();
             router.push('/')
         }
         // location.href = '/';

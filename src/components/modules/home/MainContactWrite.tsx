@@ -78,66 +78,69 @@ const MainContactWrite = ({
                 <form onSubmit={handleSubmit} className={styles.form}  id="myForm">
                     <div className={styles.contents}>
                         <table>
-                            <tr>
-                                <th>문의 제목</th>
-                                <td>
-                                    <input 
-                                    type="text" 
-                                    name="title" 
-                                    placeholder="문의 제목" 
-                                    required  
-                                    value={values.title}
-                                    onChange={onChange}
-                                    />
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>문의 내용</th>
-                                <td>
-                                    <textarea 
-                                    placeholder="문의 내용" 
-                                    name="contents" 
-                                    required
-                                    value={values.contents}
-                                    onChange={onChange}
-                                    ></textarea>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>문의 고객</th>
-                                <td>
-                                    <div className={styles.user}>
+                            <thead></thead>
+                            <tbody>
+                                <tr>
+                                    <th>문의 제목</th>
+                                    <td>
                                         <input 
                                         type="text" 
-                                        name="name" 
-                                        required 
-                                        placeholder="성함"
-                                        value={values.name}
+                                        name="title" 
+                                        placeholder="문의 제목" 
+                                        required  
+                                        value={values.title}
                                         onChange={onChange}
                                         />
-                                        <input 
-                                        type="tel" 
-                                        name="phone" 
-                                        required 
-                                        placeholder="연락처"
-                                        value={values.phone}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>문의 내용</th>
+                                    <td>
+                                        <textarea 
+                                        placeholder="문의 내용" 
+                                        name="contents" 
+                                        required
+                                        value={values.contents}
                                         onChange={onChange}
-                                        />
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>이메일</th>
-                                <td>
-                                <input
-                                type="email" 
-                                name="email" 
-                                required placeholder="이메일" 
-                                value={values.email}
-                                onChange={onChange}
-                                />
-                                </td>
-                            </tr>
+                                        ></textarea>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>문의 고객</th>
+                                    <td>
+                                        <div className={styles.user}>
+                                            <input 
+                                            type="text" 
+                                            name="name" 
+                                            required 
+                                            placeholder="성함"
+                                            value={values.name}
+                                            onChange={onChange}
+                                            />
+                                            <input 
+                                            type="tel" 
+                                            name="phone" 
+                                            required 
+                                            placeholder="연락처"
+                                            value={values.phone}
+                                            onChange={onChange}
+                                            />
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>이메일</th>
+                                    <td>
+                                    <input
+                                    type="email" 
+                                    name="email" 
+                                    required placeholder="이메일" 
+                                    value={values.email}
+                                    onChange={onChange}
+                                    />
+                                    </td>
+                                </tr>
+                            </tbody>
                         </table>
 
 

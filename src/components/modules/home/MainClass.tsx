@@ -41,7 +41,7 @@ const MainClass = () => {
                 }:any, i:number) => (
                 <ClassCard
                     key={`MainClass-ClassCard-${no}`}
-                    link="/"
+                    link={`/class/${no}`}
                     poster_url={poster_url}
                     title={title}
                     maker={store_name}

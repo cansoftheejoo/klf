@@ -26,14 +26,14 @@ authApi.interceptors.request.use(
         let json:any  = {}
 
 		const res = localStorage.getItem('user');
-		const accessToken = localStorage.getItem('accessToken');
+		const access_token = localStorage.getItem('access_token');
         if (res) {
 		    json = JSON.parse(res)
         }
 		
 
-		if(json?.memberId){
-			let token = accessToken
+		if(json?.userid){
+			let token = access_token
 			// console.log(token)
 			config.headers.Authorization = `Bearer ${token}`;
 		} 
@@ -56,11 +56,11 @@ authApi.interceptors.response.use(
 		if(response.data.result == 'expire'){
 			refreshToken()
 		} else if(response.data.result == 'empty'){
-			logout();
-			location.href= '/'
+			// logout();
+			// location.href= '/'
 		} else if(response.data.result == 'error'){
-			logout();
-			location.href= '/'
+			// logout();
+			// location.href= '/'
 		}
 		return response
 	},

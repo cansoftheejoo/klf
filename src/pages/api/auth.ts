@@ -19,23 +19,23 @@ import { useQueryClient } from "react-query";
 export const refreshToken = async () => {
     try {
         const user = localStorage.getItem('user');
-        const token = localStorage.getItem('refreshToken');
+        const token = localStorage.getItem('refresh_token');
         if (token && user) {
             const userJson = JSON.parse(user)
             const response:any = await instanceWithDefault.post('/authorization.php?trace=refresh', {
                 type : userJson.type,  // 회원타입
-                refreshToken: token
+                refresh_token: token
             }); // 토큰
 
             
             if(response?.data.result == 'success'){
-                const { accessToken, refreshToken } = response.data;
+                const { access_token, refresh_token } = response.data;
 
-                localStorage.setItem('accessToken', accessToken);
-                localStorage.setItem('refreshToken', refreshToken);
+                localStorage.setItem('access_token', access_token);
+                localStorage.setItem('refresh_token', refresh_token);
             } else {
                 console.log('토큰 리프래시 실패')
-                logout();
+                // logout();
             }
             
         }
@@ -43,14 +43,14 @@ export const refreshToken = async () => {
        
      
     } catch (error) {
-        logout();
+        // logout();
         console.error('Error refreshing token:', error);
         throw error;
     }
   };
   
 export const logout = () => {
-    const queryClient = useQueryClient()
+    // const queryClient = useQueryClient()
     localStorage.removeItem('user')
     localStorage.removeItem('access_token')
     localStorage.removeItem('refresh_token')
@@ -58,7 +58,7 @@ export const logout = () => {
     deleteCookie('access_token')
 
     // 로그아웃시 사용자 데이터 remove
-    queryClient.clear();
+    // queryClient.clear();
 }
 
 export const checkLogin = () => {

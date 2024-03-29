@@ -1,0 +1,5 @@
+.container{background-color: #222; margin: 5px 0; border-radius: 10px; padding: 13px; position: relative; padding-right: 30px;}
+.container .info{margin-bottom: 10px; font-size: 12px; color: #999; display: flex; align-items: center; flex-wrap: wrap; gap: 10px;}
+.container .contents{font-weight: 400; font-size: 14px;}
+.container .del{position: absolute; right: 10px; top: 10px; opacity: 0.5;}
+.container .del:hover{opacity: 1;}
