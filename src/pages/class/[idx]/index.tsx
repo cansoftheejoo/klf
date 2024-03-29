@@ -32,7 +32,13 @@ const ClassScreen = () => {
 
     const { data, status } = useQuery(`getClassView${idx}`, getClassView({ no: idx }), {
         onSuccess: res => {
-            // console.log(res)
+
+            if(res?.resultCode == 102 || res?.resultCode == 101){
+                setTimeout(() => {
+                    router.back()
+                }, 1000);
+            }
+
         }
     })
 
@@ -59,6 +65,8 @@ const ClassScreen = () => {
         return <p>강의 내용을 가져오는 동안 문제가 발생했습니다</p>;
     }
 
+    if(data?.resultCode == 102 || data?.resultCode == 101) return <div style={{ padding: '30vh 0' }}><p className="nothing">수강중인 동영상이 아닙니다. <br />이전 페이지로 이동합니다</p></div>
+
 
     const item:ClassViewType = data
 
@@ -76,6 +84,7 @@ const ClassScreen = () => {
                     </div>
                     <div className="contents">
                         <ClassViewContents item={item} />
+                        
                     </div>
                     <div className="list">
                        <div className="fix">

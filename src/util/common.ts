@@ -27,6 +27,7 @@ export const getCookie = (name: string) => {
     return null;
 };
 
+// 한글 시간 표시
 export function formatTime(timeString:string) {
   const [hours, minutes, seconds] = timeString.split(':');
 
@@ -37,3 +38,18 @@ export function formatTime(timeString:string) {
   return h + m + s
 
 }
+
+// 마지막 페이지
+export function lastPage(total_results:number|string, page_count:number|string) {
+  return Math.ceil(Number(total_results) / Number(page_count))
+}
+
+// 숫자 콤마 추가
+export const AddCommaNum = (inputNumber:string|number) => {
+  let formetedNumber = (Number(inputNumber)).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+  let splitArray = formetedNumber.split('.');
+  if (splitArray.length > 1) {
+      formetedNumber = splitArray[0];
+  }
+  return (formetedNumber);
+};

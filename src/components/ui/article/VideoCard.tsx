@@ -1,6 +1,7 @@
 import Link from "next/link";
 import styles from "./dist/VideoCard.module.css";
 import ThumbnailImg from "../thumbnail/ThumbnailImg";
+import { AddCommaNum } from "@/util/common";
 
 const VideoCard = ({
     light = false,
@@ -8,9 +9,13 @@ const VideoCard = ({
     title,
     store_name,
     poster_url,
+    amount,
+    pay_amount,
+    keyword,
+    no,
 }:any) => {
     return (
-        <Link href={'/class'} className={`${styles.container} ${light ? styles.light : ''}`}>
+        <Link href={`/class/${no}`} className={`${styles.container} ${light ? styles.light : ''}`}>
             <div className={styles.img}>
                 <ThumbnailImg 
                     img={poster_url}
@@ -24,13 +29,14 @@ const VideoCard = ({
                 <p className={styles.user}>{store_name}</p>
                 {!light && (
                 <>
+                    {keyword && (
                     <ul>
-                        <li>지식재산권</li>
-                        <li>지식재산권</li>
+                        {keyword.split(',').length > 0 && keyword.split(',').map((word:string) => <li key={`${no}${word}`}>{word}</li>)}
                     </ul>
+                    )}
                     <div className={styles.price}>
-                        <span>56,500원</span>
-                        <b>49,500원</b>
+                        {amount && <span>{AddCommaNum(amount)}원</span>}
+                        {pay_amount && <b>{AddCommaNum(pay_amount)}원</b>}
                     </div>
                 </>
                 )}

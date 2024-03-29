@@ -12,7 +12,6 @@ const ClassBookMark = () => {
 
     const setBookmark =  useMutation(getClassBookmarkUpdate, {
         onSuccess: res => {
-            console.log(res)
 
             queryClient.invalidateQueries([`getClassBookmark${idx}`])
         }
@@ -20,13 +19,14 @@ const ClassBookMark = () => {
 
     const toggleBookmark = () => {
         setBookmark.mutate({
-            no: idx
+            no: idx,
+            recom_yn : data.recom_yn
         })
     }
 
     const { data, status } = useQuery(`getClassBookmark${idx}`, getClassBookmark({ no: idx }), {
         onSuccess: res => {
-            console.log(res)
+            // console.log(res)
         }
     })
 

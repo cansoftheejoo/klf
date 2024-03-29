@@ -24,6 +24,8 @@
 .container article > div button{width: 90px; height: 42px; border-radius: 5px;}
 .container article .message{font-size: 12px; font-weight: 400; margin-top: 10px; color: #ff8282}
 
+.container .guide{font-size: 13px; font-weight: 400; border-top: 1px solid #444; padding: 10px 0; border-radius: 5px; margin-top: 20px; color: #ccc; margin-bottom: 10px;}
+
 .container .bottomBtn{margin-top: 50px;}
 
 .container .withdraw{
@@ -32,7 +34,8 @@
   
 }
 
-.container .withdraw button{
+.withdraw{text-align: right;}
+.withdraw button{
     color: #999;
     text-decoration: underline;
 }

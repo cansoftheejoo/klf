@@ -56,8 +56,8 @@ const LoginModule = () => {
 
         const params = {
             "type" : type, //1:일반   ,2:판매자
-            "userid": userid,  //"apoka100@gmail.com" "store1@gmail.com"
-            "userpass": userpass // test1234!
+            "userid": userid,  
+            "userpass": userpass 
         }
 
         setLogin.mutate(params)

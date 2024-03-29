@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useInfiniteQuery } from "react-query";
 import ReviewArticle from "./ReviewArticle";
 import { useRouter } from "next/router";
+import { lastPage } from "@/util/common";
 
 const ClassReviewList = () => {
 
@@ -35,7 +36,6 @@ const ClassReviewList = () => {
         return <div>로딩 실패</div>
     }
 
-    console.log(data)
     return (
         <div>
             {data?.pages && (
@@ -46,6 +46,7 @@ const ClassReviewList = () => {
                             <div className="list" key={`CsBoardList${idx}`}>
                                 {page?.data?.map((item:{
                                    no?:string,
+                                   id?:string,
                                    name?:string,
                                    comment?:string,
                                    reg_date?:string,
@@ -61,7 +62,7 @@ const ClassReviewList = () => {
                 
                     <Pagination 
                     currentPage={Number(boardParams?.nowPage ?? 1) } 
-                    totalPages={Number(data?.pages[0]?.meta.total_page)} 
+                    totalPages={lastPage(data?.pages[0]?.meta.total_results, data?.pages[0]?.meta.page_count)} 
                     result={num => {
                         setBoardParams({
                             ...boardParams,

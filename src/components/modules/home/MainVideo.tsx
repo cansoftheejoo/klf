@@ -92,6 +92,9 @@ const MainVideo = ({
                     title={title}
                     store_name={store_name}
                     poster_url={poster_url}
+                    amount={amount}
+                    pay_amount={pay_amount}
+                    keyword={keyword}
                     />
                 </SwiperSlide>
                  ))}

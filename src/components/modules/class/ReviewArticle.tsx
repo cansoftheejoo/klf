@@ -10,6 +10,7 @@ const ReviewArticle = ({
 }:{
     item: {
         no?:string,
+        id?:string,
         name?:string,
         comment?:string,
         reg_date?:string,
@@ -27,7 +28,6 @@ const ReviewArticle = ({
         onSuccess: res => {
             if(res?.result == 'success'){
                 queryClient.invalidateQueries([`getClassReviewList${idx}`])
-                alert('후기가 삭제되었습니다.')
             } else {
                 alert(res.message)
             }
@@ -36,6 +36,7 @@ const ReviewArticle = ({
 
     const onWrite = () => {
 
+        if(!confirm('후기를 삭제하시겠습니까?')) return
         const params = {
             no : item.no,      
         }
@@ -45,12 +46,12 @@ const ReviewArticle = ({
     return (
         <div className={styles.container}>
             <div className={styles.info}>
-                <span>{item.name}</span>
-                <span>{item.reg_date}</span>
+                <span>{item?.name}</span>
+                <span>{item?.reg_date}</span>
             </div>
-            <div className={styles.contents}>{item.comment}</div>
+            <div className={styles.contents}>{item?.comment}</div>
 
-            {isLoggedIn?.userid == '' && (
+            {isLoggedIn?.userid == item?.id && (
             <button className={styles.del} onClick={onWrite}> <Icon icon="material-symbols:close" fontSize={18} color="#ccc" /></button>
             )}
         </div>

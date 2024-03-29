@@ -1,25 +1,115 @@
 import MypageLayout from "@/components/modules/mypage/MypageLayout";
 import VideoCard from "@/components/ui/article/VideoCard";
 import MoreBtn from "@/components/ui/btn/MoreBtn";
+import Pagination from "@/components/ui/pagination/Pagination";
+import { getClassBookmarkUpdate } from "@/pages/api/class";
+import { getMyWishList } from "@/pages/api/mypage";
+import { lastPage } from "@/util/common";
+import { Icon } from "@iconify/react";
+import { useState } from "react";
+import { useInfiniteQuery, useMutation, useQueryClient } from "react-query";
 
 const MyWishScreen = () => {
-    const data = [0,0,0,0,0,0,0,0,0,0,0]
+    // const data = [0,0,0,0,0,0,0,0,0,0,0]
+
+    const queryClient = useQueryClient()
+
+    const setBookmark =  useMutation(getClassBookmarkUpdate, {
+        onSuccess: res => {
+
+            if(res?.result == 'success'){
+                queryClient.invalidateQueries([`getMyWishList`])
+            } else {
+                alert(res?.message)
+            }
+           
+        }
+    })
+
+    const delWish = (idx:string) => {
+        if(!confirm('찜한 강의에서 삭제하시겠습니까?')) return
+        setBookmark.mutate({
+            no: idx,
+            recom_yn : 'Y'
+        })
+    }
+
+    const [boardParams, setBoardParams] = useState({
+        nowPage: 1,
+    })
+
+    const { status, data } = useInfiniteQuery([`getMyWishList`, boardParams], getMyWishList({
+        nowPage : boardParams?.nowPage , 
+    }))
+
+    if(status == 'loading'){
+        return 
+    }
+    
+    if(status == 'error'){
+        return <div>로딩 실패</div>
+    }
 
     return (
         <MypageLayout title="찜한 강의"
-        subTitle={<span>총 <b>(5)개의 찜한 강의</b>가 있습니다.</span>}
+        subTitle={<span>총 <b>({Number(data?.pages[0]?.meta.total_results)})개의 찜한 강의</b>가 있습니다.</span>}
         >
-            <div className="list">
-                {data.map((e, i) => (
-                    <VideoCard
-                    key={`CategpryList${i}`}
-                    light={true}  
+
+            {data?.pages && (
+                data?.pages[0]?.data && data?.pages[0]?.data.length > 0 ? (
+                <>
+                    {data?.pages.map((page, idx:number) => {
+                        return (
+                            <div className="list" key={`MyWishList${idx}`}>
+                                {page?.data?.map((item:{
+                                  no?:string,
+                                  online_idx?:string,
+                                  store_name?:string,
+                                  title?:string,
+                                  keyword?:string,
+                                  list_keyword?:string,
+                                  duration?:string,
+                                  poster_url?:string,
+                                }, i:number) => (
+                                    <div
+                                    key={`CategpryList${i}`}
+                                    style={{ position: 'relative' }}
+                                    >
+                                        <button onClick={() => item?.online_idx ?  delWish(item?.online_idx) : ''} style={{ position: 'absolute', zIndex: 2, right: 10, top: 10 }}><Icon icon="material-symbols:close" fontSize={18} color="#ccc" /></button>
+                                        <VideoCard
+                                            
+                                            light={true}  
+                                            store_name={item?.store_name}
+                                            poster_url={item?.poster_url}
+                                            title={item?.title}
+                                        />
+                                    </div>
+                                ))}
+                            </div>
+                        )
+                    })}
+                
+                
+                    <Pagination
+                    currentPage={Number(boardParams?.nowPage ?? 1) } 
+                    totalPages={lastPage(data?.pages[0]?.meta.total_results, data?.pages[0]?.meta.page_count)} 
+                    result={num => {
+                        setBoardParams({
+                            ...boardParams,
+                            nowPage: num,
+                        })
+                    }}
                     />
-                ))}
-            </div>
+                </>
+                ) : (
+                    <p className="nothing">등록된 리뷰가 없습니다</p>
+                )
+            )}
+
+{/*       
             <MoreBtn
                 pressFunc={() => {}}
-            />
+            /> */}
             <style jsx>{`
             .container{
                 padding-bottom: 50px;

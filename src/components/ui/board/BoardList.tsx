@@ -1,31 +1,53 @@
 
+import Pagination from "../pagination/Pagination";
 import BoardListArticle from "./BoardListArticle";
+import { lastPage } from "@/util/common";
 
 const BoardList = ({
-    data = []
-}: {
-    data?: any[],
-}) => {
+    data,
+    boardParams,
+    setBoardParams = () => {},
+    boardId,
+}:any) => {
     return (
         <div className="container">
-            {data && data.length > 0 ? (
-            <>
-                <header>
-                    <span className="title">제목</span>
-                    <span className="date">등록일</span>
-                </header>
-                {data.map(({
-                    title,
-                    date,
-                }, i) => (
-                    <BoardListArticle 
-                    key={`BoardList${i}`}
-                    title={title}
-                    date={date}
+
+            {data?.pages && (
+                data?.pages[0]?.data && data?.pages[0]?.data.length > 0 ? (
+                <>
+                    {data?.pages.map((page:any, idx:number) => {
+                        return (
+                            <div className="list" key={`CsBoardList${idx}`}>
+                                {page?.data?.map((item:any, i:number) => (
+                                <BoardListArticle 
+                                    key={`BoardList${item?.no}`}
+                                    idx={item?.no}
+                                    title={item?.title}
+                                    date={item?.register_date}
+                                    boardId={boardId}
+                                    />
+                                ))}
+                            </div>
+                        )
+                    })}
+                
+                    <Pagination
+                    currentPage={Number(boardParams?.nowPage ?? 1) } 
+                    totalPages={lastPage(data?.pages[0]?.meta.total_results, data?.pages[0]?.meta.page_count)} 
+                    result={num => {
+                        setBoardParams({
+                            ...boardParams,
+                            nowPage: num,
+                        })
+                    }}
                     />
-                ))}
-            </>
-            ) : (<p className="nothing">등록된 글이 없습니다.</p>)}
+                </>
+                ) : (
+                    <p className="nothing">등록된 글이 없습니다</p>
+                )
+            )}
+
+       
            
 
          
