@@ -10,6 +10,7 @@ import MyProfitNotice from "@/components/modules/mypage/profit/MyProfitNotice";
 import MyProfitClassList from "@/components/modules/mypage/profit/MyProfitClassList";
 import MyAccountModal from "@/components/modules/mypage/profit/MyAccountModal";
 import MyProfitSubmitModal from "@/components/modules/mypage/profit/MyProfitSubmitModal";
+import AddAcountBtn from "@/components/modules/mypage/profit/AddAcountBtn";
 
 const MyProfitScreen = () => {
 
@@ -30,22 +31,12 @@ const MyProfitScreen = () => {
         <MypageLayout title="수익 관리">
             
             <div className="container">
-                <div className="topBtn">
-                    <button className="nBtn rBtn bColor1"
-                        onClick={Accounttoggle}
-                    >
-                        <Icon icon="bxs:edit" />
-                        출금계좌 등록
-                    </button>
-                </div>
-                <MyProfitView />
-                <div className="tar">
-                    <button className="nBtn rBtn sColor1"
-                        onClick={Submittoggle}
-                    >
-                        출금신청
-                    </button>
-                </div>
+               <AddAcountBtn 
+               Accounttoggle={Accounttoggle}
+               Submittoggle={Submittoggle}
+                />
+      
+             
                 <div className="tab">
                     {tab.map((item, i) => <button type="button" key={item} className={`tabBtn ${i == profitType ? 'active' : ''}`} onClick={() => setProfitType(i)}>{item}</button>)}
                 </div>
@@ -80,9 +71,11 @@ const MyProfitScreen = () => {
 
                 .row{margin: 30px 0;}
 
-                .tabBtn{border: 1px solid #ccc; margin: 0 5px 5px 0; color: #ccc; padding: 10px; font-weight: 700; min-width: 100px; border-radius: 5px;}
+                .topBtn{display: flex; align-items: center; flex-wrap: wrap; gap: 10px;}
+                .tabBtn{border: 1px solid #ccc; margin: 0 5px 5px 0; color: #ccc; padding: 10px; font-weight: 700; min-width: 100px; border-radius: 5px; }
                 .tabBtn.active{background: var(--color1); color: #333; border-color: var(--color1); }
         
+                .accountInfo{color: #ccc; font-weight: 400;}
             `}</style>
         </MypageLayout>
     );

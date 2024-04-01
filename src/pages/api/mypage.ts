@@ -1,6 +1,10 @@
 import { getData, getUserData } from "./get"
 import { postUserData } from "./post"
 
+// 마이페이지 메뉴
+export const getMyMenuCount = async () => await getUserData('/mypage.php?trace=online_state_count')
+
+
 /*
  회원정보
 */
@@ -45,6 +49,23 @@ export const getMySubscribe = ({
 }) => async () => await getUserData('/mypage.php?trace=online_use', {
     nowPage: nowPage,
 })
+
+/*
+  강의 관리
+*/
+export const getManageClass = ({
+    nowPage = 1,
+    viewType = '',
+}:{
+    nowPage:number
+    viewType?:string
+}) => async () => await getUserData('/mypage.php?trace=online_list', {
+    nowPage: nowPage,
+    viewType: viewType,
+})
+
+/*
+
 
 
 /*
@@ -105,6 +126,10 @@ export const postProfitAccount = async (value:any) => {
     const { data } = await  postUserData(`/calculate.php?trace=account_save`, value);
     return data;
 };
+
+// 출금 계좌 정보
+export const getProfitAccount = async () => await getUserData('/calculate.php?trace=account_view');
+
 
 // 은행명 리스트
 export const getBankList = async () => await getData('/calculate.php?trace=bank_list');

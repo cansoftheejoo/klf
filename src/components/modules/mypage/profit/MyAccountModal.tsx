@@ -1,8 +1,9 @@
 import ModalLayout from "@/components/ui/modal/ModalLayout";
 import styles from "./MyAccountModal.module.css"
 import { useMutation, useQuery } from "react-query";
-import { getBankList, postProfitAccount } from "@/pages/api/mypage";
-import { useState } from "react";
+import { getBankList, getProfitAccount, postProfitAccount } from "@/pages/api/mypage";
+import { useEffect, useState } from "react";
+import MyAccountBankList from "./MyAccountBankList";
 
 const MyAccountModal = ({
     modalActive = false,
@@ -35,20 +36,28 @@ const MyAccountModal = ({
 
     }
 
-    const { data, status } = useQuery('getBankList', getBankList, {
+    const { data, status } = useQuery('getProfitAccount', getProfitAccount, {
         onSuccess: res => {
-            // console.log(res)
+            console.log(res)
         }
     })
 
+    useEffect(() => {
+        setValues({
+            account_name: data?.data?.account_name,
+            bank_name: data?.data?.bank_name,
+            account_number: data?.data?.account_number,
+        })
+    },[])
 
     if(status == 'loading'){
-        return <p></p>
+        return  <div></div>;
     }
 
     if (status == 'error') {
-        return <p>데이터 로딩 문제가 발생했습니다</p>;
+        return <p>데이터를 가져오는 동안 문제가 발생했습니다</p>;
     }
+
 
     return (
         <ModalLayout modalActive={modalActive}>
@@ -56,13 +65,11 @@ const MyAccountModal = ({
                 <h4>출금 계좌 등록</h4>
                 <form onSubmit={handleSubmit}>
                     <div className={styles.input}>
-                        <select
-                            value={values.bank_name}
-                            onChange={e => setValues({ ...values, bank_name: e.target.value })}
-                        >
-                            <option value="">은행선택</option>
-                            {data?.data && data?.data.map(({bank_name}: { bank_name:string }) =>  <option key={bank_name} value={bank_name}>{bank_name}</option>)}
-                        </select>
+                        <MyAccountBankList
+                            values={values}
+                            setValues={(val:any) => setValues(val)}
+                        />
+                       
                         <input type="text" required placeholder="예금주" 
                             value={values.account_name}
                             onChange={e => setValues({ ...values, account_name: e.target.value })}
