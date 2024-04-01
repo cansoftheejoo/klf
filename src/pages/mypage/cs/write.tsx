@@ -30,7 +30,7 @@ const MyCsWriteScreen = () => {
                 alert('문의가 등록되었습니다.')
                 router.push('/mypage/cs/board/inquiry_list')
             } else {
-                alert(res.message)
+                alert(res?.msg)
             }
         }
     })

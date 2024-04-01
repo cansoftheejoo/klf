@@ -6,9 +6,8 @@ import { useForm, SubmitHandler } from "react-hook-form"
 import { SignUpType } from "@/type/common";
 import { useState } from "react";
 import { useMutation } from "react-query";
-import { postCheckUserNickname } from "@/pages/api/member";
+import { postCheckUserNickname, postLogin } from "@/pages/api/member";
 import MypageInfoForm from "@/components/modules/mypage/info/MyInfoForm";
-import { postLogin } from "@/pages/api/post";
 
 const MypageScreen = () => {
 
@@ -16,7 +15,7 @@ const MypageScreen = () => {
 
     
     // 회원정보 확인 체크
-    const [check, setCheck] = useState(true)
+    const [check, setCheck] = useState(false)
     
     // 비밀번호
     const [password, setPassword] = useState('')
@@ -27,7 +26,7 @@ const MypageScreen = () => {
 
     const setLogin = useMutation(postLogin, {
         onSuccess: res => {
-            console.log(res)
+            // console.log(res)
 
             if(res?.result == 'success'){
                 onLogin({
@@ -37,7 +36,7 @@ const MypageScreen = () => {
                 setCheck(true)
             
             } else {
-                alert(res.message)
+                alert(res?.msg)
                 setPassword('')
             }
         }

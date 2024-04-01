@@ -9,11 +9,15 @@ export interface SignInReturnType {
 
 // 회원가입 폼 타입
 export interface SignUpType {
+    type:string;
     userid:string;
     user_nickname?:string;
     username?:string;
     userpass?:string;
     userpassd?:string;
     company_id?:string;
+    company_no?:string;
+    file_name?:string;
+    
     usertel?:string;
 }

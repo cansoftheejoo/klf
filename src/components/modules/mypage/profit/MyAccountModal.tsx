@@ -17,7 +17,7 @@ const MyAccountModal = ({
 
     const setAccount = useMutation(postProfitAccount, {
         onSuccess: res => {
-            alert(res.message)
+            alert(res?.msg)
             if(res?.result == 'success'){
                
                 toggle()

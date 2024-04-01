@@ -1,12 +1,13 @@
 import MypageLayout from "@/components/modules/mypage/MypageLayout";
 import styles from "@/components/modules/login/SignUpModule.module.css";
-import { useCheckSignIn } from "@/hook/common";
+import { useCheckSignIn, useSignOut } from "@/hook/common";
 import SignUpCompayList from "@/components/modules/login/SignUpCompayList";
 import { useForm, SubmitHandler } from "react-hook-form"
 import { SignUpType } from "@/type/common";
 import { useState } from "react";
-import { useMutation } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { postCheckUserNickname } from "@/pages/api/member";
+import { getMyInfo, postEditInfo, postWithdraw } from "@/pages/api/mypage";
 
 const MypageInfoForm = () => {
 
@@ -31,7 +32,7 @@ const MypageInfoForm = () => {
         },
         user_nickname: {
             value: '',
-            check: false,
+            check: true,
         },
         username: {
             value: '',
@@ -46,7 +47,7 @@ const MypageInfoForm = () => {
                 setValidate({
                     ...validate,
                     user_nickname: {
-                        value: res.message,
+                        value: res?.msg,
                         check: true
                     },
                 });
@@ -54,7 +55,7 @@ const MypageInfoForm = () => {
                 setValidate({
                     ...validate,
                     user_nickname: {
-                        value: res.message,
+                        value: res?.msg,
                         check: false
                     },
                 });
@@ -82,43 +83,103 @@ const MypageInfoForm = () => {
         })
     }
 
+    // 로그아웃
+    const signOut = useSignOut()
 
+    // 회원탈퇴
+    const setWithdraw = useMutation(postWithdraw, {
+        onSuccess: res => {
+
+            console.log(res)
+
+            alert(res?.msg)
+
+
+            if(res?.result == 'success'){
+                signOut()
+            } 
+
+        }
+    })
+    const handleWithdraw = () => {
+
+        let msg = '정말로 회원탈퇴를 진행하시겠습니까? '
+
+        if(isLoggedIn?.type == '1'){
+            msg += '회원탈퇴시 결제하신 강의가 모두 사라집니다.'
+        } else {
+            msg += '회원탈퇴시 등록하신 강의와 수익금이 모두 사라집니다.'
+        }
+
+        if(confirm(msg)){
+            setWithdraw.mutate({
+                type: isLoggedIn?.type
+            })
+        }
+    }
+
+
+    const queryClient = useQueryClient()
+    const setEditInfo = useMutation(postEditInfo, {
+        onSuccess: res => {
+            // console.log(res)
+            if(res?.result == 'success'){
+                queryClient.invalidateQueries(['getMyInfo'])
+            } 
+
+            alert(res?.msg)
+        }
+    })
 
 
     const onSubmit: SubmitHandler<any> = (data) => {
 
-        // if(!validate.userid.check){
-        //     alert('아이디 중복확인을 해주세요')
-        //     return
-        // }
+ 
 
-        // if(!validate.user_nickname.check){
-        //     alert((type == '1' ? '닉네임' : '판매점명') + ' 중복확인을 해주세요')
-        //     return
-        // }
+        if(!validate.user_nickname.check){
+            alert((isLoggedIn?.type == '1' ? '닉네임' : '판매점명') + ' 중복확인을 해주세요')
+            return
+        }
 
-        // const formData = new FormData();
-        // Object.entries(data).forEach(([key, value]) => {
-        //     if(value){
-        //         formData.append(key, value.toString());
-        //     }
-        // });
+        const formData = new FormData();
+        Object.entries(data).forEach(([key, value]) => {
+            if(value){
+                formData.append(key, value.toString());
+            }
+        });
 
-        // if(type == '1'){
-        //     setSignUpNormal.mutate(formData)
-        // } else {
-        //     seSignUpSeller.mutate(formData)
-        // }
+        // console.log(data)
+
+        setEditInfo.mutate(formData)
     }
 
+    const { data, status } = useQuery(['getMyInfo', isLoggedIn], getMyInfo({
+        type: isLoggedIn?.type
+    }), {
+        onSuccess: res => {
+            // console.log(res)
+        }
+    })
+
+
+    if(status == 'loading'){
+        return <p></p>
+    }
+
+    if (status == 'error') {
+        return <p>데이터 로딩 문제가 발생했습니다</p>;
+    }
 
     return (
         <div>
             <form onSubmit={handleSubmit(onSubmit)} className={styles.container}>
+
+                <input type="hidden"  {...register("type")}  value={isLoggedIn?.type} />
+
                 <article>
                     <h5>이메일</h5>
                     <div className="txt">
-                        test@test.com
+                        {data?.userid}
                     </div>
                 </article>
 
@@ -131,6 +192,7 @@ const MypageInfoForm = () => {
                     <input
                         type="text" 
                         placeholder={isLoggedIn?.type == '1' ? '닉네임' : '판매점명'}
+                        defaultValue={data?.username}
                         autoComplete="off"
                         {...register("username", { 
                             required: {
@@ -177,6 +239,7 @@ const MypageInfoForm = () => {
                         <input 
                         type="tel" 
                         placeholder="연락처" 
+                        defaultValue={data?.usertel}
                         {...register("usertel", {
                             pattern: {
                                 value: /^[\d-]*$/,
@@ -194,13 +257,25 @@ const MypageInfoForm = () => {
                     <article>
                         <h5>*사업자등록번호</h5>
                         <div className="input">
-                            <input type="text" name="company_no" placeholder="사업자등록번호" />
+                            <input type="text" 
+                            defaultValue={data?.company_no}
+                            placeholder="사업자등록번호" 
+                            {...register("company_no", {
+                                pattern: {
+                                    value: /^[\d-]*$/,
+                                    message: '숫자 또는 "-"만 입력하세요.',
+                                },
+                            })}
+                            />
                         </div>
                     </article>
                     <article>
                         <h5>*사업자등록증</h5>
                         <div className="file">
-                            <input type="file" name="file_name" placeholder="사업자등록번호" />
+                            <input type="file" 
+                            placeholder="사업자등록번호"
+                            {...register("file_name")}
+                            />
                         </div>
                     </article>
                     
@@ -222,10 +297,14 @@ const MypageInfoForm = () => {
                                 check: val => {
                                     const regex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@#$%^&+=!])(?!.*\s).{6,16}$/g; 
                             
-                                    if (val && regex.test(val)) {
-                                        return true; 
+                                    if(val){
+                                        if (regex.test(val)) {
+                                            return true; 
+                                        } else {
+                                            return '영문 숫자 특수문자 조합 6-16자리';
+                                        }
                                     } else {
-                                        return '영문 숫자 특수문자 조합 6-16자리';
+                                        return true
                                     }
                                 }
                             }
@@ -245,10 +324,14 @@ const MypageInfoForm = () => {
                                 check: val => {
                                     const userpass = watch('userpass'); 
                             
-                                    if (val && userpass == val) {
-                                        return true; 
+                                    if(val){
+                                        if (userpass == val) {
+                                            return true; 
+                                        } else {
+                                            return '비밀번호가 일치하지 않습니다';
+                                        }
                                     } else {
-                                        return '비밀번호가 일치하지 않습니다';
+                                        return true
                                     }
                                 }
                             }
@@ -267,7 +350,7 @@ const MypageInfoForm = () => {
             </form>
 
             <div className={styles.withdraw}>
-                <button type="button">회원탈퇴</button>
+                <button type="button" onClick={handleWithdraw}>회원탈퇴</button>
             </div>
         </div>
     );

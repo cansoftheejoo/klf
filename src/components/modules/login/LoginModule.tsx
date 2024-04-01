@@ -37,7 +37,7 @@ const LoginModule = () => {
                 })
              
             } else {
-                alert(res.message)
+                alert(res?.msg)
                 setPassword('')
             }
         }
@@ -50,12 +50,11 @@ const LoginModule = () => {
         const formData = new FormData(form);
 
         
-        const type = formData.get('type')
         const userid = formData.get('userid')
         const userpass = formData.get('userpass')
 
         const params = {
-            "type" : type, //1:일반   ,2:판매자
+            "type" : memberType, //1:일반   ,2:판매자
             "userid": userid,  
             "userpass": userpass 
         }

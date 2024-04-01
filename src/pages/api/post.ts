@@ -33,11 +33,7 @@ export const postRegister = async (value:any) => {
     return data;
 };
 
-// 로그인
-export const postLogin = async (value:any) => {
-    const { data } = await  postData('/auth.php?trace=login', value);
-    return data;
-};
+
 
 // 로그인
 export const postFindIDPW = async (value:any) => {
@@ -45,11 +41,6 @@ export const postFindIDPW = async (value:any) => {
     return data;
 };
 
-// 회원탈퇴
-export const postWithdraw = async (value:any) => {
-    const { data } = await  postUserData('/mypage.php?trace=withdrawal', value);
-    return data;
-};
 
 
 

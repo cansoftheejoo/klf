@@ -26,7 +26,7 @@ const SignUpModule = () => {
     // 회원가입 제출
     const setSignUpNormal = useMutation(postSignUpNormal,{
         onSuccess: res => {
-            alert(res?.message)
+            alert(res?.msg)
             if(res?.result == 'success'){
                 // 로그인
                 onLogin({
@@ -39,7 +39,7 @@ const SignUpModule = () => {
     })
     const seSignUpSeller = useMutation(postSignUpSeller,{
         onSuccess: res => {
-            alert(res?.message)
+            alert(res?.msg)
             if(res?.result == 'success'){
                 // 로그인
                 onLogin({
@@ -103,7 +103,7 @@ const SignUpModule = () => {
                 setValidate({
                     ...validate,
                     userid: {
-                        value: res.message,
+                        value: res?.msg,
                         check: true
                     },
                 });
@@ -111,7 +111,7 @@ const SignUpModule = () => {
                 setValidate({
                     ...validate,
                     userid: {
-                        value: res.message,
+                        value: res?.msg,
                         check: false
                     },
                 });
@@ -149,7 +149,7 @@ const SignUpModule = () => {
                 setValidate({
                     ...validate,
                     user_nickname: {
-                        value: res.message,
+                        value: res?.msg,
                         check: true
                     },
                 });
@@ -157,7 +157,7 @@ const SignUpModule = () => {
                 setValidate({
                     ...validate,
                     user_nickname: {
-                        value: res.message,
+                        value: res?.msg,
                         check: false
                     },
                 });

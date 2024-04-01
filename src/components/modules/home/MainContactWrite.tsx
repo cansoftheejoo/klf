@@ -47,7 +47,7 @@ const MainContactWrite = ({
 
                 toggle();
             } else {
-                alert(res.message)
+                alert(res?.msg)
             }
         }
     })

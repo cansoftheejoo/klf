@@ -20,7 +20,7 @@ const ClassReviewWrite = () => {
                 queryClient.invalidateQueries([`getClassReviewList${idx}`])
                 alert('후기가 등록되었습니다.')
             } else {
-                alert(res.message)
+                alert(res?.msg)
             }
         }
     })

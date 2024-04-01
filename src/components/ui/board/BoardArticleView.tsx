@@ -31,6 +31,9 @@ const BoardArticleView = ({
             console.log(res)
         }
     })
+
+
+    // if(!data?.answer?.contents) return
     
 
     if(boardId == 'inquiry'){
@@ -49,9 +52,7 @@ const BoardArticleView = ({
                     <div className="con" dangerouslySetInnerHTML={{ __html: data?.answer?.contents }} />
                   
                     <div className="info">
-                        <span>{data?.answer?.status?.step}</span>
-                        <span>{data?.answer?.status?.name}</span>
-                        <span>{data?.answer?.status?.date}</span>
+                        <span>{data?.answer?.status}</span>
                     </div>
                 </div>
 

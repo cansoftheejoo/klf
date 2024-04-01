@@ -1,6 +1,31 @@
 import { getData, getUserData } from "./get"
 import { postUserData } from "./post"
 
+/*
+ 회원정보
+*/
+// 기존 회원정보
+export const getMyInfo = ({
+    type,
+}:{
+    type?:string
+}) => async () => await getUserData('/mypage.php?trace=member_view', {
+    type: type,
+})
+
+// 회원정보 수정
+export const postEditInfo = async (value:any) => {
+    const { data } = await  postUserData(`/mypage.php?trace=member_edit`, value);
+    return data;
+};
+
+// 회원탈퇴
+export const postWithdraw = async (value:any) => {
+    const { data } = await  postUserData(`/mypage.php?trace=withdraw`, value);
+    return data;
+};
+
+
 // 찜한 강의 목록
 export const getMyWishList = ({
     nowPage = 1,

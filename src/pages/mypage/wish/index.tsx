@@ -20,7 +20,7 @@ const MyWishScreen = () => {
             if(res?.result == 'success'){
                 queryClient.invalidateQueries([`getMyWishList`])
             } else {
-                alert(res?.message)
+                alert(res?.msg)
             }
            
         }

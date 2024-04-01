@@ -29,7 +29,7 @@ const ReviewArticle = ({
             if(res?.result == 'success'){
                 queryClient.invalidateQueries([`getClassReviewList${idx}`])
             } else {
-                alert(res.message)
+                alert(res?.msg)
             }
         }
     })
