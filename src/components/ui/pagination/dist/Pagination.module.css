@@ -37,7 +37,7 @@
 button.active {
   background: var(--color1);
   font-weight: 700;
-  color: #fff;
+  color: #333;
   border-color: transparent;
 }
 

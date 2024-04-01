@@ -14,7 +14,8 @@
 .container .img .state {
   font-size: 12px;
   background: var(--color1);
-  color: #fff;
+  color: #333;
+  font-weight: 500;
   display: inline-block;
   padding: 15px 10px;
   position: absolute;

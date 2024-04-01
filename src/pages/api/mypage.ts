@@ -11,6 +11,18 @@ export const getMyWishList = ({
 })
 
 /*
+ 수강중인 강의
+*/
+export const getMySubscribe = ({
+    nowPage = 1,
+}:{
+    nowPage:number
+}) => async () => await getUserData('/mypage.php?trace=online_use', {
+    nowPage: nowPage,
+})
+
+
+/*
  고객센터
 */
 // 고객센터 게시판
@@ -57,3 +69,55 @@ export const postCsInquiryWrite = async (value:any) => {
     const { data } = await  postUserData(`/customer_service.php?trace=inquiry_save`, value);
     return data;
 };
+
+
+/*
+ 수익관리
+*/
+
+// 출금 계좌 등록
+export const postProfitAccount = async (value:any) => {
+    const { data } = await  postUserData(`/calculate.php?trace=account_save`, value);
+    return data;
+};
+
+// 은행명 리스트
+export const getBankList = async () => await getData('/calculate.php?trace=bank_list');
+
+
+// 출금내역 리스트
+export const getProfitHistory = ({
+    nowPage = 1,
+    viewType = '',
+    trace = '',
+}:{
+    nowPage:number
+    viewType?:string
+    trace?:string
+}) => {
+
+    // 출금내역 리스트 calculate_list
+    // 상태 1:출금신청 2:확인중 3:출금완료 4:반려
+
+    // 강의별 수익 리스트 calculate_online_list
+    // 출금신청 상태  (N :신청전 Y:출금완료 C : 출금신청)
+
+    return async () => await getUserData('/calculate.php', {
+        nowPage: nowPage,
+        viewType: viewType,
+        trace: trace,
+    })
+    
+}
+
+
+// 출금 금액
+export const getProfitPrice = async () => await getUserData('/calculate.php?trace=account_amount');
+
+
+// 출금 신청
+export const postProfitSubmit = async (value:any) => {
+    const { data } = await  postUserData(`/calculate.php?trace=account_amount_save`, value);
+    return data;
+};
+

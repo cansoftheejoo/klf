@@ -8,93 +8,31 @@ import MyProfitView from "@/components/modules/mypage/profit/MyProfitView";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import MyProfitNotice from "@/components/modules/mypage/profit/MyProfitNotice";
 import MyProfitClassList from "@/components/modules/mypage/profit/MyProfitClassList";
+import MyAccountModal from "@/components/modules/mypage/profit/MyAccountModal";
+import MyProfitSubmitModal from "@/components/modules/mypage/profit/MyProfitSubmitModal";
 
 const MyProfitScreen = () => {
+
+    const [AccountActive, setAccountActive] = useState(false)
+    const Accounttoggle = () => setAccountActive(!AccountActive)
+
+    const [SubmitActive, setSubmitActive] = useState(false)
+    const Submittoggle = () => setSubmitActive(!SubmitActive)
 
 
     const [profitType, setProfitType] = useState(0)
     const tab = ['출금 내역','강의별 수익']
 
-    const [alertType, setAlertType] = useState('')
-    const [alertContents, setAlertContents] = useState(<></>)
-
-    const dispatch = useDispatch();
-
-    const handleToggle = () => dispatch(alertToggle());
-
-    const onSetBank = () => {
-        setAlertType('bank')
-        // 계좌 등록
-        setAlertContents(
-            <>
-                <input type="text" placeholder="예금주" />
-                <select >
-                    <option value="">은행선택</option>
-                </select>
-                <input type="text" placeholder="계좌번호" />
-                <style jsx>{`
-                    input{width: 100%;}
-                   select{width: 100%;}
-                `}</style>
-            </>
-        )
-        handleToggle();
-    }
-
-    const handleIncome = () => {
-        setAlertType('profit')
-        // 출금신청
-        setAlertContents(
-        <>
-            <div className="price">
-                <dl>
-                    <dt>판매금액</dt>
-                    <dd>100,000원</dd>
-                </dl>
-                <dl>
-                    <dt>판매금액</dt>
-                    <dd>100,000원</dd>
-                </dl>
-                <dl className="total">
-                    <dt>총 수익금</dt>
-                    <dd>100,000원</dd>
-                </dl>
-                
-            </div>
-            <p className="bold">출금 신청을 하시겠습니까?</p>
-            <style jsx>{`
-                .price{ width: 100%; padding: 0 20px;}
-                .price dl{display: flex; align-items: center; justify-content: space-between; font-size: 13px; color: #999; margin: 10px 0;}
-                .price dl.total{font-size: 15px; color: #ccc;  margin-top: 20px;}
-
-                .bold{margin-top: 10px; text-align: center; font-size: 18px; color: #fff; }
-            `}</style>
-        </>
-    )
-        handleToggle();
-    }
 
 
-    const handleSubmitProfit = () => {
-        if (alertType == 'bank') {
-            // 계좌 등록
-
-        } else {
-            // 출금 신청
-         
-
-        }
-
-        handleToggle();
-    }
 
     return (
         <MypageLayout title="수익 관리">
             
             <div className="container">
                 <div className="topBtn">
-                    <button className="nBtn rBtn sColorG"
-                        onClick={onSetBank}
+                    <button className="nBtn rBtn bColor1"
+                        onClick={Accounttoggle}
                     >
                         <Icon icon="bxs:edit" />
                         출금계좌 등록
@@ -103,7 +41,7 @@ const MyProfitScreen = () => {
                 <MyProfitView />
                 <div className="tar">
                     <button className="nBtn rBtn sColor1"
-                        onClick={handleIncome}
+                        onClick={Submittoggle}
                     >
                         출금신청
                     </button>
@@ -122,12 +60,16 @@ const MyProfitScreen = () => {
 
                 <MyProfitNotice />
             </div>
-            
-            <AlertModal
-                title={alertType == 'bank' ? "출금 계좌 등록" : "출금 가능한 수익금"}
-                child={alertContents}
-                onConfirm={handleSubmitProfit}
+
+            <MyAccountModal 
+                modalActive={AccountActive}
+                toggle={Accounttoggle}
             />
+            <MyProfitSubmitModal 
+                modalActive={SubmitActive}
+                toggle={Submittoggle}
+            />
+       
 
         
 

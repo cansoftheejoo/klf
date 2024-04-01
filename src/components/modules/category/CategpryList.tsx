@@ -49,7 +49,7 @@ const CategoryList = ({
     return (
         <div className="container">
 
-{data?.pages && (
+            {data?.pages && (
                 data?.pages[0]?.data && data?.pages[0]?.data.length > 0 ? (
                 <>
                     {data?.pages.map((page, idx:number) => {

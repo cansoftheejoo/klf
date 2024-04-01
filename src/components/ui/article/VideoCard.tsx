@@ -5,7 +5,7 @@ import { AddCommaNum } from "@/util/common";
 
 const VideoCard = ({
     light = false,
-    state = null,
+    state,
     title,
     store_name,
     poster_url,
@@ -21,7 +21,7 @@ const VideoCard = ({
                     img={poster_url}
                 />
                 {state !== null && (
-                    <span className={`${styles.state} ${state == 'y' ? styles.end : styles.ing}`}>{state == 'y' ? '수강완료' : '수강중'}</span>
+                    <span className={`${styles.state} ${state == 'Y' ? styles.end : styles.ing}`}>{state == 'Y' ? '수강완료' : '수강중'}</span>
                 )}
             </div>
             <div className={styles.txt}>

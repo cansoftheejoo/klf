@@ -1,27 +1,87 @@
 import MypageLayout from "@/components/modules/mypage/MypageLayout";
 import VideoCard from "@/components/ui/article/VideoCard";
 import MoreBtn from "@/components/ui/btn/MoreBtn";
+import Pagination from "@/components/ui/pagination/Pagination";
+import { getMySubscribe } from "@/pages/api/mypage";
+import { lastPage } from "@/util/common";
+import { useState } from "react";
+import { useInfiniteQuery } from "react-query";
 
 const MyClassScreen = () => {
 
-    const data = [0,0,1,0,0,1,1,1,0,0,0]
+
+    const [boardParams, setBoardParams] = useState({
+        nowPage: 1,
+    })
+
+    const { status, data } = useInfiniteQuery([`getMySubscribe`, boardParams], getMySubscribe({
+        nowPage : boardParams?.nowPage , 
+    }))
+
+    if(status == 'loading'){
+        return 
+    }
+    
+    if(status == 'error'){
+        return <div>로딩 실패</div>
+    }
+
 
     return (
         <MypageLayout title="수강중인 강의" 
-            subTitle={<span>총 <b>(5)개의 수강 중인 강의</b>가 있습니다.</span>}
+            subTitle={<span>총 <b>({Number(data?.pages[0]?.meta.total_results)})개의 수강 중인 강의</b>가 있습니다.</span>}
         >
-            <div className="list">
-                {data.map((e, i) => (
-                    <VideoCard
-                    key={`CategpryList${i}`}
-                    light={true}  
-                    state={e == 0 ? 'n' : 'y'}
+            {data?.pages && (
+                data?.pages[0]?.data && data?.pages[0]?.data.length > 0 ? (
+                <>
+                    {data?.pages.map((page, idx:number) => {
+                        return (
+                            <div className="list" key={`MyWishList${idx}`}>
+                                {page?.data?.map((item:{
+                                  no?:string,
+                                  online_idx?:string,
+                                  store_name?:string,
+                                  study_state?:string,
+                                  title?:string,
+                                  keyword?:string,
+                                  list_keyword?:string,
+                                  duration?:string,
+                                  poster_url?:string,
+                                }, i:number) => (
+                                    <VideoCard
+                                        key={`CategpryList${i}`}
+                                        light={true}  
+                                        state={item?.study_state}
+                                        store_name={item?.store_name}
+                                        poster_url={item?.poster_url}
+                                        title={item?.title}
+                                    />
+                                ))}
+                            </div>
+                        )
+                    })}
+                
+                
+                    <Pagination
+                    currentPage={Number(boardParams?.nowPage ?? 1) } 
+                    totalPages={lastPage(data?.pages[0]?.meta.total_results, data?.pages[0]?.meta.page_count)} 
+                    result={num => {
+                        setBoardParams({
+                            ...boardParams,
+                            nowPage: num,
+                        })
+                    }}
                     />
-                ))}
-            </div>
-            <MoreBtn
+                </>
+                ) : (
+                    <p className="nothing">등록된 리뷰가 없습니다</p>
+                )
+            )}
+
+         
+            {/* <MoreBtn
                 pressFunc={() => {}}
-            />
+            /> */}
             <style jsx>{`
             .container{
                 padding-bottom: 50px;
