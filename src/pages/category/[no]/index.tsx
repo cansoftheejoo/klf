@@ -1,4 +1,4 @@
-import SubLayout from "@/components/layout/subLayout";
+import SubLayout from "@/components/layout/SubLayout";
 import CategorySub from "@/components/modules/category/CategorySub";
 import CategpryList from "@/components/modules/category/CategpryList";
 import PageHeader from "@/components/ui/page/PageHeader";

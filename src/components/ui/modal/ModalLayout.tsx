@@ -1,4 +1,3 @@
-import { useLoginModal } from "@/hook/CustomHook";
 import styles from './ModalLayout.module.css'
 import { useEffect } from "react";
 

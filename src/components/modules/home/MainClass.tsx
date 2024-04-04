@@ -24,6 +24,10 @@ const MainClass = () => {
 
     if(!data) return
 
+
+    console.log(data)
+    return <div></div>
+
     return (
         <div className="inner">
             <div className="container">

@@ -7,20 +7,6 @@ const BoardArticleView = ({
     idx,
 }:any) => {
 
-    const handleDownload = async (url:string) => {
-       // 1. fetch 실행이 끝나면 FETCH API는 내부적으로 Body Object를 상속받아 Response 인스턴스를 생성
-        // const res = await fetch(url)
-        // 2. blob() 메소드는 Body Object의 메서드로 상속이 되어있으므로 res.blob() 가능, blob 인스턴스 반환
-        const blob = await res.blob()
-        // 3. 여기서 이 작업을 해주지않으면 link.download에 있는 파일명으로 다운로드하지 못한다.
-        // createObjectURL()는 URL을 DOMString으로 반환한다. (URL 해제는 revokeObjectURL())
-        const downloadUrl = window.URL.createObjectURL(blob) // 이 과정이 필요하다.
-
-        const link = document.createElement('a')
-        link.href = downloadUrl
-        link.download = '다운로드명.xlsx'
-        link.click()
-      };
 
        
     const { data, status } = useQuery(`getMyCsBoardView${idx}`, getMyCsBoardView({

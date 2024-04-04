@@ -11,11 +11,6 @@ const MainVideo = ({
     title = ''
 }) => {
 
-    const getBanner = {
-        data: {
-            data: [0,0,0,0,0,0,0,0,0]
-        }
-    }
 
     const id = title == '무료 강의' ? 'free' : 'new'
 
@@ -33,6 +28,9 @@ const MainVideo = ({
     if (status == 'error') {
         return <p>데이터 로딩 문제가 발생했습니다</p>;
     }
+
+    console.log(data)
+    return <div></div>
 
 
     return (

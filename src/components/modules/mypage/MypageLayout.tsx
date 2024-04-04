@@ -1,4 +1,6 @@
+import { useRouter } from "next/router";
 import styles from './dist/MypageLayout.module.css';
+
 import MyMenu from "./MyMenu";
 
 const MypageLayout = ({ 

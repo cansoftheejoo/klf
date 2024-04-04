@@ -32,13 +32,13 @@ const MainCountBanner = () => {
                 <div className="num">
                     <span>준비된 강의</span>
                     <div className="area">
-                        {data?.category_cnt.toString().split('').map((num:string, i) => (
+                        {data?.category_cnt.toString().split('').map((num:string, i:number) => (
                         <b key={`categoryCount-${i}`}>{num}</b>
                         ))}
                         <span>개 영역</span>
                     </div>
                     <div className="area">
-                        {data?.online_cnt.toString().split('').map((num:string, i) => (
+                        {data?.online_cnt.toString().split('').map((num:string, i:number) => (
                         <b key={`categoryCount-${i}`}>{num}</b>
                         ))}
                         <span>개 강의</span>

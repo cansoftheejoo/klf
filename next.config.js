@@ -14,7 +14,14 @@ const nextConfig = {
             'admin.franchise-online.co.kr',
         ],
 	},
-	
+  async rewrites() {
+    return [
+      {
+        source: '/v2/media/:path', 
+        destination: 'https://mapi.midibus.kinxcdn.com/v2/media/:path', 
+      },
+    ];
+},
 }
 
 module.exports = nextConfig

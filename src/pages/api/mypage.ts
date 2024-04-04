@@ -1,5 +1,6 @@
 import { getData, getUserData } from "./get"
-import { postUserData } from "./post"
+import { postUserData, postUserMbus } from "./post"
+import { instanceWithAuth } from "./util"
 
 // 마이페이지 메뉴
 export const getMyMenuCount = async () => await getUserData('/mypage.php?trace=online_state_count')
@@ -53,6 +54,7 @@ export const getMySubscribe = ({
 /*
   강의 관리
 */
+// 내가 등록한 강의 리스트
 export const getManageClass = ({
     nowPage = 1,
     viewType = '',
@@ -65,7 +67,50 @@ export const getManageClass = ({
 })
 
 /*
+  강의 등록
+*/
+// 토큰발급
+export const getAddClassToken = async () => await getUserData('/mypage.php?trace=midibus_token')
 
+// 미디어 업로드
+// export const postAddClassUpload = async (value:any) => {
+//     const { data } = await  instanceWithAuth.post(`/customer_service.php?trace=inquiry_save`, value);
+//     return data;
+// };
+
+// 강의 등록
+export const postAddClassWrite = async (value:any) => {
+    const { data } = await  postUserMbus(`/mypage.php?trace=online_save`, value);
+    return data;
+};
+
+
+// 등록한 강의 내용
+export const getAddClassView = ({
+    no,
+}:{
+    no?:string
+}) => async () => await getUserData('/mypage.php?trace=online_view_store', {
+    no: no,
+})
+
+// 강의 수정
+export const postAddClassEdit = async (value:any) => {
+    const { data } = await  postUserData(`/mypage.php?trace=online_edit`, value);
+    return data;
+};
+
+// 강의 삭제
+export const postAddClassDel = async (value:any) => {
+    const { data } = await  postUserData(`/mypage.php?trace=online_del`, value);
+    return data;
+};
+
+// 강의 중지
+export const postAddClassStop = async (value:any) => {
+    const { data } = await  postUserData(`/mypage.php?trace=online_stop`, value);
+    return data;
+};
 
 
 /*

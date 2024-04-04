@@ -13,7 +13,6 @@ import { lastPage } from "@/util/common";
 
 const MyOpenClassScreen = () => {
 
-    const sample = [0,0,0,0,0]
 
     const router = useRouter()
     const type = router.query?.type as string
@@ -76,7 +75,7 @@ const MyOpenClassScreen = () => {
             {data?.data && data?.data.length > 0 ? (
                 <>
                     <div className="list">
-                    {data?.data.map((item:any, i) => (  
+                    {data?.data.map((item:any, i:number) => (  
                         <MyVideoArticle
                             key={`myOpenVideo${i}`}
                             idx={i.toString()}

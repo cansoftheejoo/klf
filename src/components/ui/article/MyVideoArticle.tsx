@@ -93,7 +93,7 @@ const MyVideoArticle = ({
                 </button>
                 {toggle && (
                 <div className={styles.moreModal} ref={node}>
-                    <button onClick={() => router.push(`/mypage/open/write?idx=${idx}`)}>강의 편집</button>
+                    <button onClick={() => router.push(`/mypage/open/write?idx=${item?.no}`)}>강의 편집</button>
                     <button onClick={handleDel}>강의 삭제</button>
                     <button onClick={handleStop}>강의 중지</button>
                 </div>

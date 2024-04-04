@@ -27,6 +27,7 @@ authApi.interceptors.request.use(
 
 		const res = localStorage.getItem('user');
 		const access_token = localStorage.getItem('access_token');
+		const MMusToken = localStorage.getItem('X-Mbus-Token');
         if (res) {
 		    json = JSON.parse(res)
         }

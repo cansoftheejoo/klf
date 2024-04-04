@@ -1,3 +1,4 @@
+import { getUserData } from "./get";
 import { instanceWithAuth, instanceWithDefault } from "./util";
 
 
@@ -10,7 +11,24 @@ export const postData = async (url:string, params = {"Content-Type": `applicatio
 // 유저 전용
 export const postUserData = async (url:string, params:any) => {
 
+
+
     return await instanceWithAuth.post(url , params).then(res => res)
+
+}
+
+// 유저 미디버스 토큰 사용
+export const postUserMbus = async (url:string, params:any) => {
+
+  
+    const getToken = await getUserData('/mypage.php?trace=midibus_token')
+    const token = getToken?.token
+
+    return await instanceWithAuth.post(url , params, {
+        headers: {
+            'X-Mbus-Token': token
+        }
+    }).then(res => res)
 
 }
 
