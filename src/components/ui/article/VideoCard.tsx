@@ -13,15 +13,16 @@ const VideoCard = ({
     pay_amount,
     keyword,
     no,
+    link
 }:any) => {
     return (
-        <Link href={`/class/${no}`} className={`${styles.container} ${light ? styles.light : ''}`}>
+        <Link href={link ? link : `/class/${no}`} className={`${styles.container} ${light ? styles.light : ''}`}>
             <div className={styles.img}>
                 <ThumbnailImg 
                     img={poster_url}
                 />
-                {state !== null && (
-                    <span className={`${styles.state} ${state == 'Y' ? styles.end : styles.ing}`}>{state == 'Y' ? '수강완료' : '수강중'}</span>
+                {state && state == 'Y' && (
+                    <span className={`${styles.state} ${state == 'Y' ? styles.ing : styles.end}`}>수강중</span>
                 )}
             </div>
             <div className={styles.txt}>

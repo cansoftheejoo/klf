@@ -28,3 +28,4 @@ export const posttCustomInquiry = async (value:any) => {
     const { data } = await  postUserData('/customer_service.php?trace=edu_inquiry_save', value);
     return data;
 };
+

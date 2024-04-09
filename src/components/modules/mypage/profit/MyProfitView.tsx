@@ -1,3 +1,4 @@
+import Loading from "@/components/ui/loading/Loading";
 import { getProfitPrice } from "@/pages/api/mypage";
 import { AddCommaNum } from "@/util/common";
 import { useQuery } from "react-query";
@@ -12,7 +13,7 @@ const MyProfitView = () => {
 
 
     if(status == 'loading'){
-        return <p></p>
+        return <Loading />
     }
 
     if (status == 'error') {

@@ -35,7 +35,7 @@ export const refreshToken = async () => {
                 localStorage.setItem('refresh_token', refresh_token);
             } else {
                 console.log('토큰 리프래시 실패')
-                // logout();
+                logout();
             }
             
         }
@@ -43,7 +43,7 @@ export const refreshToken = async () => {
        
      
     } catch (error) {
-        // logout();
+        logout();
         console.error('Error refreshing token:', error);
         throw error;
     }
@@ -56,6 +56,8 @@ export const logout = () => {
     localStorage.removeItem('refresh_token')
 
     deleteCookie('access_token')
+
+    location.href= '/'
 
     // 로그아웃시 사용자 데이터 remove
     // queryClient.clear();

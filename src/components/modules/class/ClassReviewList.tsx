@@ -5,6 +5,7 @@ import { useInfiniteQuery } from "react-query";
 import ReviewArticle from "./ReviewArticle";
 import { useRouter } from "next/router";
 import { lastPage } from "@/util/common";
+import Loading from "@/components/ui/loading/Loading";
 
 const ClassReviewList = () => {
 
@@ -29,11 +30,11 @@ const ClassReviewList = () => {
     }))
 
     if(status == 'loading'){
-        return 
+        return <Loading />
     }
     
     if(status == 'error'){
-        return <div>로딩 실패</div>
+        return <div className="nothing">로딩 실패</div>
     }
 
     return (

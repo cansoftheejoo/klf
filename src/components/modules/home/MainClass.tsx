@@ -1,4 +1,5 @@
 import ClassCard from "@/components/ui/article/ClassCard";
+import Spinner from "@/components/ui/loading/Spinner";
 import { getMainVideo } from "@/pages/api/main";
 import { useQuery } from "react-query";
 
@@ -15,18 +16,19 @@ const MainClass = () => {
 
 
     if(status == 'loading'){
-        return <p></p>
+        return <Spinner />
     }
 
     if (status == 'error') {
-        return <p>데이터 로딩 문제가 발생했습니다</p>;
+        return <p className="nothing">데이터 로딩 문제가 발생했습니다</p>;
     }
 
     if(!data) return
 
 
-    console.log(data)
-    return <div></div>
+    if(data?.statusCode == 400){
+        return <p className="nothing">데이터 로딩 문제가 발생했습니다</p>;
+    }
 
     return (
         <div className="inner">

@@ -1,42 +1,45 @@
 import { alertToggle } from "@/redux/alert";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const AlertModal = ({
+    active,
+    toggle,
     title,
     info,
     onConfirm,
     child,
+    useCancle = true,
 }:{
+    active:boolean, 
+    toggle:() => void,
     title?:string,
     info?:string,
     onConfirm?:() => void,
     child?:React.ReactNode,
+    useCancle?:boolean, 
 }) => {
 
-    const toggle = useSelector((state:any) => state.alert.value);
 
-    const dispatch = useDispatch();
-
-    const handleToggle = () => dispatch(alertToggle());
 
     const handleBackgroundClick = (event:any) => {
         if (event.target === event.currentTarget) {
           // 배경을 클릭한 경우 모달을 닫음
-        //   handleToggle();
+            toggle();
         }
     };
 
 
     return (
         <>
-            {toggle && (
+            {active && (
                 <div className="modal" onClick={handleBackgroundClick}>
                     <div className="alert">
                         {title && (<h4>{title}</h4>)}
                         {info && (<p className="info">{info}</p>)}
                         {child && child}
                         <div className="confirm">
-                            <button type="button" className="cancle" onClick={handleToggle}>취소</button>
+                            {useCancle && <button type="button" className="cancle" onClick={toggle}>취소</button>}
                             <button type="button" className="submit" onClick={onConfirm}>확인</button>
                         </div>
                     </div>

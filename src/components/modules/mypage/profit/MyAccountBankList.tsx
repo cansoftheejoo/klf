@@ -14,7 +14,11 @@ const MyAccountBankList = ({
 
 
     if(status == 'loading'){
-        return <p></p>
+        return (
+            <select>
+                <option value="">은행선택</option>
+            </select>
+        )
     }
 
     if (status == 'error') {

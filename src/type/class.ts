@@ -23,4 +23,6 @@ export interface ClassViewType {
     object_id?:string;
     duration?:string;
     poster_url?:string;
+    study_pay_yn?:string;
+    
 }

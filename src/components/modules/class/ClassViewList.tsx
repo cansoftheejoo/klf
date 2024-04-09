@@ -1,4 +1,5 @@
 import VideoVerticalCard from "@/components/ui/article/VideoVerticalCard";
+import Loading from "@/components/ui/loading/Loading";
 import { getClassViewSideList } from "@/pages/api/class";
 import { ClassViewType } from "@/type/class";
 import { useRouter } from "next/router";
@@ -24,11 +25,11 @@ const ClassViewList = ({
     })
 
     if(status == 'loading'){
-        return ;
+        return <Loading />;
     }
 
     if (status == 'error') {
-        return <p>강의 내용을 가져오는 동안 문제가 발생했습니다</p>;
+        return <p className="nothing">강의 내용을 가져오는 동안 문제가 발생했습니다</p>;
     }
 
     if(!data) return

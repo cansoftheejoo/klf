@@ -28,7 +28,11 @@ const MyProfitList = () => {
     }))
 
     if(status == 'loading'){
-        return 
+        return (
+            <div>
+                <h3>출금 내역</h3>
+            </div>
+        )
     }
     
     if(status == 'error'){

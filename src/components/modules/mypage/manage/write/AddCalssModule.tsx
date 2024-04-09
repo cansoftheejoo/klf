@@ -1,7 +1,7 @@
 import MypageLayout from "@/components/modules/mypage/MypageLayout";
 import EditorIntroduce from "@/components/modules/mypage/open/EditorIntroduce";
 import QuillEditor from "@/components/modules/mypage/open/QuillEditor";
-import { getAddClassView, postAddClassWrite } from "@/pages/api/mypage";
+import { getAddClassView, postAddClassEdit, postAddClassWrite } from "@/pages/api/mypage";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useRouter } from "next/router";
 import { useState } from 'react';
@@ -43,6 +43,30 @@ const AddCalssModule = () => {
 
     const queryClient = useQueryClient()
 
+    // 강의 수정
+    const setEdit = useMutation(postAddClassEdit, {
+        onSuccess: res => {
+            
+            console.log(res)
+
+            if(res?.result == 'success'){
+                setProgressMsg('강의을 강의 수정이이 완료되었습니다')
+                queryClient.invalidateQueries(['getManageClass'])
+                setTimeout(() => {
+                    setActiveModal(false)
+                    router.push('/mypage/open')
+                }, 800);
+            } else {
+                alert(res.msg)
+            }
+
+        },
+        onError: err => {
+            setActiveModal(false)
+            alert('강의 등록에 실패했습니다')
+        }
+    })
+
     // 강의 등록
     const setSubmit = useMutation(postAddClassWrite, {
         onSuccess: res => {
@@ -71,12 +95,11 @@ const AddCalssModule = () => {
         // 폼 데이터를 서버로 전송 또는 처리할 로직을 작성합니다.
         // console.log(formData);
 
-     
 
         try {
             const form = e.target;
             const formData = new FormData(form);
-            const file = formData.get('file');
+            const file:any = formData.get('file');
     
             // FormData를 JSON 형식으로 변환
             var jsonObject:any = {};
@@ -91,32 +114,33 @@ const AddCalssModule = () => {
                 return
             }
 
-            // 218ea6aa48ec8a51
-            const params = {
-                "category"      :"8",                           //카테고리
-                "title"         : "테스트 동영상",          //제목
-                "keyword"       : "테스트",       //키워드
-                "list_keyword"       : "테스트",       //강의 목록 키워드
-                "amount"        : "18000",                   //공급금액
-                "pay_amount"    : "16000",                   //판매금액
-                "intro"         : "테스트 강의 소개",                 //강의소개
-                "contents"      : "테스트 강의 내용",                //강의내용
-                "type"          : "2",                      //1: 유료강의 2: 무료강의
-                "media_id"      : "218e88d9d78e9e6e"        //미디어ID
-            }
+            
+            if(idx){
+                console.log(file)
+                if(file?.size > 0){
+                    console.log('있음')
+                } else {
+                    console.log('없음')
 
-            console.log(params)
-            setSubmit.mutate(params)
-            return
+                    setProgressMsg('강의을 수정중입니다')
+                    setEdit.mutate(jsonObject)
+                    return
+                }
+               
+
+                
+            }
 
             setActiveModal(true)
             setProgressMsg('동영상 업로드 진행중입니다')
 
             const getToken = await getUserData('/mypage.php?trace=midibus_token')
             const token = getToken?.token
+            const fileForm = new FormData();
+            fileForm.append('file', file)
 
 
-            const response = await axios.post(`https://mapi.midibus.kinxcdn.com/v2/media/${categoryId?.category_id}`, formData, {
+            const response = await axios.post(`https://mapi.midibus.kinxcdn.com/v2/media/${categoryId?.category_id}`, fileForm, {
               headers: {
                 'X-Mbus-Token': token
               },
@@ -143,11 +167,10 @@ const AddCalssModule = () => {
                         }
 
                         setProgressMsg('강의을 등록중입니다')
-                        console.log(params)
+                        // console.log(params)
                         setSubmit.mutate(params)
                     }
-                    // setUploadImage(response?.data?.upload_file_name)
-                    // setOriginImage(response?.data?.original_file_name)
+
                 } else {
 
                 }
@@ -204,7 +227,10 @@ const AddCalssModule = () => {
                     <article>
                         <h5>*카테고리</h5>
                         <div className="input">
-                            <AddClassCategory onChange={val => setCategoryId(val)} />
+                            <AddClassCategory 
+                            onChange={(val:any) => setCategoryId(val)}
+                            init={preData.data?.category}
+                             />
                         </div>
                     </article>
                     <article>
@@ -213,6 +239,7 @@ const AddCalssModule = () => {
                             <p className="guide">* 쉼표(,)로 키워드를 구분해주세요</p>
                             <div className="inline">
                                 <input type="text" name="keyword" placeholder="키워드를 입력해주세요"
+                                 defaultValue={preData.data?.keyword}
 
                                     value={tagKeyword}
                                     onChange={e => {
@@ -265,7 +292,7 @@ const AddCalssModule = () => {
                             <p className="guide">* 쉼표(,)로 키워드를 구분해주세요</p>
                             <div className="inline">
                                 <input type="text" name="list_keyword" placeholder="키워드를 입력해주세요"
-
+                                    defaultValue={preData.data?.list_keyword}
                                     value={tagClassKeyword}
                                     onChange={e => {
                                         const val = e.target.value
@@ -313,7 +340,9 @@ const AddCalssModule = () => {
                     <article>
                         <h5>*금액선택</h5>
                         <div className="price">
-                            <select name="type" onChange={e => setIsFree(e.target.value)}>
+                            <select name="type"
+                            defaultValue={preData.data?.type}
+                            onChange={e => setIsFree(e.target.value)}>
                                 <option value="1">유료강의</option>
                                 <option value="2">무료강의</option>
                             </select>
@@ -331,6 +360,7 @@ const AddCalssModule = () => {
                                 placeholder="판매금액" 
                                 disabled={isFree == '2'}
                                 required
+                                defaultValue={preData.data?.amount}
                                 />
                                 원
                             </div>
@@ -342,6 +372,7 @@ const AddCalssModule = () => {
                                 placeholder="공급금액" 
                                 disabled={isFree == '2'}
                                 required
+                                defaultValue={preData.data?.pay_amount}
                                 />
                                 원
                             </div>
@@ -359,6 +390,8 @@ const AddCalssModule = () => {
                             name="intro"
                             placeholder="강의 소개를 입력해주세요"
                             required
+                            defaultValue={preData.data?.intro}
+
                             ></textarea>
                         </div>
                     </article>
@@ -368,19 +401,24 @@ const AddCalssModule = () => {
                         <EditorIntroduce />
                     </div> */}
                         <div className="input">
-                            <textarea name="contents" placeholder="강의 내용를 입력해주세요" required ></textarea>
+                            <textarea name="contents" placeholder="강의 내용를 입력해주세요" required 
+                            defaultValue={preData.data?.contents}
+                            ></textarea>
                         </div>
                     </article>
 
                     <input type="hidden" name="media_id" value={0} />
 
                     <article>
-                        <h5>강의 첨부파일</h5>
+                        <h5>
+                            강의 첨부파일
+
+                        </h5>
                         <div className="input">
                             
 
-                            <CustomFileUpload  />
-
+                            <CustomFileUpload idx={idx}  />
+                           
                         </div>
                     </article>
              

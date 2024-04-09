@@ -4,6 +4,7 @@ import { getCategory } from '@/pages/api/main';
 import { useQuery } from 'react-query';
 import Image from 'next/image';
 import { imgUrl } from '@/util/common';
+import Spinner from '@/components/ui/loading/Spinner';
 
 const MainCategory = () => {
 
@@ -15,11 +16,11 @@ const MainCategory = () => {
 
 
     if(status == 'loading'){
-        return <p></p>
+        return <Spinner />
     }
 
     if (status == 'error') {
-        return <p>데이터 로딩 문제가 발생했습니다</p>;
+        return <p className="nothing">데이터 로딩 문제가 발생했습니다</p>;
     }
 
     return (

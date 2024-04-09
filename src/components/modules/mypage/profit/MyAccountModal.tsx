@@ -4,6 +4,7 @@ import { useMutation, useQuery } from "react-query";
 import { getBankList, getProfitAccount, postProfitAccount } from "@/pages/api/mypage";
 import { useEffect, useState } from "react";
 import MyAccountBankList from "./MyAccountBankList";
+import Loading from "@/components/ui/loading/Loading";
 
 const MyAccountModal = ({
     modalActive = false,
@@ -50,9 +51,7 @@ const MyAccountModal = ({
         })
     },[])
 
-    if(status == 'loading'){
-        return  <div></div>;
-    }
+
 
     if (status == 'error') {
         return <p>데이터를 가져오는 동안 문제가 발생했습니다</p>;
@@ -63,28 +62,32 @@ const MyAccountModal = ({
         <ModalLayout modalActive={modalActive}>
             <div className={styles.container}>
                 <h4>출금 계좌 등록</h4>
-                <form onSubmit={handleSubmit}>
-                    <div className={styles.input}>
-                        <MyAccountBankList
-                            values={values}
-                            setValues={(val:any) => setValues(val)}
-                        />
-                       
-                        <input type="text" required placeholder="예금주" 
-                            value={values.account_name}
-                            onChange={e => setValues({ ...values, account_name: e.target.value })}
-                        />
-                        <input type="text" required placeholder="계좌번호" 
-                            value={values.account_number}
-                            onChange={e => setValues({ ...values, account_number: e.target.value })}
-                        />
-        
-                    </div>
-                    <div className={styles.confirm}>
-                        <button type="button" className={styles.cancle} onClick={toggle}>취소</button>
-                        <button type="submit" className={styles.submit} >확인</button>
-                    </div>
-                </form>
+                {status == 'loading' ? (
+                    <Loading />
+                ) : (
+                    <form onSubmit={handleSubmit}>
+                        <div className={styles.input}>
+                            <MyAccountBankList
+                                values={values}
+                                setValues={(val:any) => setValues(val)}
+                            />
+                        
+                            <input type="text" required placeholder="예금주" 
+                                value={values.account_name}
+                                onChange={e => setValues({ ...values, account_name: e.target.value })}
+                            />
+                            <input type="text" required placeholder="계좌번호" 
+                                value={values.account_number}
+                                onChange={e => setValues({ ...values, account_number: e.target.value })}
+                            />
+            
+                        </div>
+                        <div className={styles.confirm}>
+                            <button type="button" className={styles.cancle} onClick={toggle}>취소</button>
+                            <button type="submit" className={styles.submit} >확인</button>
+                        </div>
+                    </form>
+                )}
             </div>
          
         </ModalLayout>

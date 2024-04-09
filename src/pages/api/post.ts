@@ -24,11 +24,12 @@ export const postUserMbus = async (url:string, params:any) => {
     const getToken = await getUserData('/mypage.php?trace=midibus_token')
     const token = getToken?.token
 
-    return await instanceWithAuth.post(url , params, {
-        headers: {
-            'X-Mbus-Token': token
-        }
-    }).then(res => res)
+    const newParams:any = {
+        ...params,
+        'X-Mbus-Token': token
+    }
+    console.log(newParams)
+    return await instanceWithAuth.post(url , newParams).then(res => res)
 
 }
 

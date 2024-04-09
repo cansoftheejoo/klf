@@ -1,10 +1,14 @@
 import ClassReviewList from "./ClassReviewList";
 import ClassReviewWrite from "./ClassReviewWrite";
 
-const ClassReviewModule = () => {
+const ClassReviewModule = ({
+    study_pay_yn = 'N'
+}) => {
     return (
         <div>
-            <ClassReviewWrite />
+            {study_pay_yn == 'Y' && (
+                <ClassReviewWrite />
+            )}
             <ClassReviewList />
         </div>
     );

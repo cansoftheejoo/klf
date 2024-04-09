@@ -1,3 +1,4 @@
+import Loading from "@/components/ui/loading/Loading";
 import Pagination from "@/components/ui/pagination/Pagination";
 import { getProfitHistory } from "@/pages/api/mypage";
 import { AddCommaNum, lastPage } from "@/util/common";
@@ -27,7 +28,7 @@ const MyProfitClassList = () => {
     }))
 
     if(status == 'loading'){
-        return 
+        return <Loading />
     }
     
     if(status == 'error'){

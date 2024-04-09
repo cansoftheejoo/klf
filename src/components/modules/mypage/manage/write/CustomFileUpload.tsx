@@ -6,10 +6,11 @@ import { ChangeEvent, ChangeEventHandler, useEffect, useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 
 function CustomFileUpload({
-
+  idx,
   change,
   toggle,
 }:{
+  idx?:string;
   change?:any,
   toggle?:(val:any) => void,
 }) {
@@ -19,13 +20,6 @@ function CustomFileUpload({
   const queryClient = useQueryClient()
 
   // 장바구니 전달 아이템 설정
-
-
-  const addCart = () => {
-
-  
- 
-  }
 
 
   const [file, setFile] = useState<File | null>(null);
@@ -71,7 +65,13 @@ function CustomFileUpload({
           {file != null ? (
              <>
               <div className="fileBox">
-                  <button className="del" onClick={() => setFile(null)}><Icon icon="material-symbols-light:close" color='#555' fontSize={17} /></button>
+                  <button className="del" onClick={() => {
+                     setFile(null)
+                    var fileInput:any = document.getElementById('file');
+                    if(fileInput){
+                      fileInput.value = '';
+                    }
+                  }}><Icon icon="material-symbols-light:close" color='#555' fontSize={17} /></button>
                   <div className="box">
                   <Icon icon="ic:sharp-check" fontSize={28} color='var(--color1)' />
                   </div>
@@ -94,18 +94,23 @@ function CustomFileUpload({
         </div>
         )}
   
-        <p className="guide">4GB 미만 
-        
-        동영상파일을 업로드해주세요</p>
+        <p className="guide">4GB 미만 동영상파일을 업로드해주세요</p>
+        {idx && <p className="guide">* 동영상을 수정할 경우만 첨부해주세요</p>}
         </div>
 
+        {idx ? (
         <div className="cartBtn">
-       {file != null ? (
-          <button className="mBtn sColor1" type='submit' onClick={addCart}>등록하기</button>
+          <button className="mBtn sColor1" type='submit'>수정하기</button>
+        </div>
         ) : (
-          <button className="mBtn sColorG" type='button' onClick={() => alert('강의 영상을 올려주세요')}>등록하기</button>
+          <div className="cartBtn">
+          {file != null ? (
+              <button className="mBtn sColor1" type='submit'>등록하기</button>
+            ) : (
+              <button className="mBtn sColorG" type='button' onClick={() => alert('강의 영상을 올려주세요')}>등록하기</button>
+            )}
+          </div>
         )}
-       </div>
 
       <style jsx>{`
         .container{}

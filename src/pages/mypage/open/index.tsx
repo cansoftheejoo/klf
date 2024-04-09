@@ -6,10 +6,11 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from "react-redux";
 import { alertToggle } from "@/redux/alert";
 import { useRouter } from "next/router";
-import { useQuery } from "react-query";
-import { getManageClass } from "@/pages/api/mypage";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { getManageClass, postAddClassDel, postAddClassStop } from "@/pages/api/mypage";
 import Pagination from "@/components/ui/pagination/Pagination";
 import { lastPage } from "@/util/common";
+import Loading from "@/components/ui/loading/Loading";
 
 const MyOpenClassScreen = () => {
 
@@ -29,25 +30,56 @@ const MyOpenClassScreen = () => {
         })
     },[type])
 
+    // 알림창 active
+    const [activeAlert, setActiveAlert] = useState(false)
+    const toggle = () => setActiveAlert(!activeAlert)
 
+    // 알림창 타입
     const [alertType, setAlertType] = useState('')
 
+    // 알림창 확인시 기능
+    const [onConfirm, setOnConfirm] = useState<() => void>(() => {})
+
+    const queryClient = useQueryClient()
+
+    // 선택 idx
     const [selectIdx, setSelectIdx] = useState('')
 
-    const dispatch = useDispatch();
-
-    const handleToggle = () => dispatch(alertToggle());
-
-    const handleAlertConfirm = () => {
-        if (alertType == 'del') {
-            // 삭제
-
-        } else {
-            // 중단
-
+    // 강의 삭제
+    const setClassDel = useMutation(postAddClassDel, {
+        onSuccess: res => {
+            toggle()
+            if(res?.result == 'success'){
+                alert('강의 삭제가 완료되었습니다')
+                queryClient.invalidateQueries([`getManageClass${type}`])
+            } else {
+                alert(res?.msg)
+            }
         }
+    })
+    const onClassDel = () =>{
+        setClassDel.mutate({
+            "no" : selectIdx,             
+        })
+    }
 
-        handleToggle();
+    // 강의 중지
+    const setClassStop = useMutation(postAddClassStop, {
+        onSuccess: res => {
+            toggle()
+             
+            if(res?.result == 'success'){
+                alert('강의 중지가 완료되었습니다')
+                queryClient.invalidateQueries([`getManageClass${type}`])
+            } else {
+                alert(res?.msg)
+            }
+        }
+    })
+    const onClassStop = () => {
+        setClassStop.mutate({
+            "no" : selectIdx         
+        })
     }
 
 
@@ -61,7 +93,7 @@ const MyOpenClassScreen = () => {
     })
 
     if(status == 'loading'){
-        return  <div></div>;
+        return  <Loading />
     }
 
     if (status == 'error') {
@@ -81,11 +113,15 @@ const MyOpenClassScreen = () => {
                             idx={i.toString()}
                             onDel={val => {
                                 setAlertType('del')
-                                setSelectIdx(val)
+                                setSelectIdx(item.no)
+
+                                toggle()
                             }}
                             onStop={val => {
-                                setAlertType('stop')
-                                setSelectIdx(val)
+                                setAlertType(item?.state == '3' ? 'restart' : 'stop')
+                                setSelectIdx(item.no)
+                              
+                                toggle()
                             }}
                             item={item}
                         />
@@ -106,36 +142,28 @@ const MyOpenClassScreen = () => {
                 <p className="nothing">등록된 강의가 없습니다</p>
             )}
 
-            {/* <div className="list">
-                {sample.map((e, i) => (  
-                    <MyVideoArticle
-                        key={`myOpenVideo${i}`}
-                        idx={i.toString()}
-                        onDel={val => {
-                            setAlertType('del')
-                            setSelectIdx(val)
-                        }}
-                        onStop={val => {
-                            setAlertType('stop')
-                            setSelectIdx(val)
-                        }}
-                    />
-                    ))}
-                </div>
-            <BottomAddBtn /> */}
 
             
             <AlertModal
                 title={
                     alertType == 'del' ? 
                     "강의를 삭제하시겠습니까?" : 
-                    "강의 판매를 중지하시겠습니까?"
+                    ( alertType == 'stop' ? "강의 판매를 중지하시겠습니까?" : '강의 판매를 재개하시겠습니까')
                 }
                 info={alertType == 'del' ? 
                     "삭제한 강의는 다시 되돌릴수 없습니다." : 
                     "판매를 재개하시려면 강의 승인을 다시 받아야 합니다."
                 }
-                onConfirm={handleAlertConfirm}
+                // onConfirm={handleAlertConfirm}
+                active={activeAlert}
+                toggle={toggle}
+                onConfirm={() => {
+                    if(alertType == 'del'){
+                        onClassDel()
+                    } else {
+                        onClassStop()
+                    }
+                }}
             />
 
             <style jsx>{`

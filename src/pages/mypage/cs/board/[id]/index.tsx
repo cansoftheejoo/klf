@@ -2,6 +2,7 @@ import MypageLayout from "@/components/modules/mypage/MypageLayout";
 import BoardList from "@/components/ui/board/BoardList";
 import BoardSearch from "@/components/ui/board/BoardSearch";
 import MoreBtn from "@/components/ui/btn/MoreBtn";
+import Loading from "@/components/ui/loading/Loading";
 import { getMyCsBoardList } from "@/pages/api/mypage";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -42,34 +43,37 @@ const MyCsBoard = () => {
         nowPage : boardParams?.nowPage , 
     }))
 
-    if(status == 'loading'){
-        return 
-    }
     
     if(status == 'error'){
         return <div>로딩 실패</div>
     }
 
-    console.log(data)
 
     return (
         <MypageLayout title={title?.[id] ?? '게시판'}>
-            <BoardSearch 
-                id={id}
-                boardParams={boardParams}
-                setBoardParams={(val:any) => setBoardParams(val)}
-            />
-            {boardId == 'inquiry' && (
-             <div style={{ textAlign: 'right', margin: '30px 0' }}>
-                <Link href={'/mypage/cs/write'} className="mBtn sColor1">문의하기</Link>
-            </div>
+            {status == 'loading' ? (
+                <Loading />
+            ) : (
+                <>
+                    <BoardSearch 
+                        id={id}
+                        boardParams={boardParams}
+                        setBoardParams={(val:any) => setBoardParams(val)}
+                    />
+                    {boardId == 'inquiry' && (
+                    <div style={{ textAlign: 'right', margin: '30px 0' }}>
+                        <Link href={'/mypage/cs/write'} className="mBtn sColor1">문의하기</Link>
+                    </div>
+                    )}
+                    <BoardList 
+                        data={data}
+                        boardParams={boardParams}
+                        setBoardParams={(val:any) => setBoardParams(val)}
+                        boardId={boardId}
+                    />
+                </>
             )}
-            <BoardList 
-                data={data}
-                boardParams={boardParams}
-                setBoardParams={(val:any) => setBoardParams(val)}
-                boardId={boardId}
-            />
+          
             {/* <MoreBtn /> */}
         </MypageLayout>
     );

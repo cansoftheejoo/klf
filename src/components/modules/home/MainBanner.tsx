@@ -35,11 +35,11 @@ const MainBanner = () => {
 
 
     if(status == 'loading'){
-        return <div className={styles.container}><div className={styles.empty}></div></div>
+        return <div className="inner"><div className={styles.container}><div className={styles.empty}></div></div></div>
     }
 
     if (status == 'error') {
-        return <p>배너를 가져오는 동안 문제가 발생했습니다</p>;
+        return <p className="nothing">배너를 가져오는 동안 문제가 발생했습니다</p>;
     }
     
 

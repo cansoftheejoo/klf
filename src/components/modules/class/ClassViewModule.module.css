@@ -1,0 +1,75 @@
+
+.container{
+    padding: var(--vertical-padding) 0; 
+    display: grid;
+    grid-template-areas:
+    "header header header"
+    "contents contents list";
+    grid-template-columns: repeat(3, 1fr); /* 4개의 열로 시작 */
+}
+.container .header{grid-area: header; background: #333; position: sticky; z-index: 5; top: 0; }
+.container .contents{grid-area: contents; padding-right: 50px;}
+.container .list{grid-area: list; }
+.container .list .fix{position: sticky; top: 130px;}
+
+.header{display: flex; align-items: center;}
+.header header{width: 85%; padding: 30px 0}
+.header header h3{color: #fff; font-size: 30px; font-weight: 500;}
+.header header p{font-size: 15px; color: #999; margin-top: 5px;}
+.header .action{width: 15%; display: flex; align-items: center; justify-content: flex-end; gap: 15px;}
+
+.videoArea{border-bottom: 5px solid #1c1c1c; padding-bottom: var(--vertical-padding); min-height: 550px;}
+.video{background: #222;}
+
+.action{display: none; align-items: center; justify-content: flex-end; gap: 10px;}
+
+.tab{padding: 30px 0; display: flex; gap: 50px;}
+.tab button{font-size: 18px; font-weight: 500; color: #fff; border-bottom: 3px solid transparent; padding-bottom: 5px;}
+.tab button.active{border-color: var(--color1);}
+
+.tabContents{padding: 30px 0;}
+
+
+.priceBox{background-color: #222; padding: 20px; border-radius: 15px; margin-bottom: 20px;}
+.priceBox button{font-weight: 500; font-size: 18px;}
+.priceBox .pay .price{font-size: 24px; margin-bottom: 20px;}
+.priceBox .pay .price span{font-size: 0.8em; margin-left: 10px; text-decoration: line-through; opacity: 0.7;}
+.priceBox .pay .price b{}
+.priceBox .result{text-align: center;}
+.priceBox .result .message{margin: 30px 0; }
+
+@media (max-width: 1400px) {
+    .container{
+        grid-template-areas:
+        "header header header header"
+        "contents contents contents list";
+        grid-template-columns: repeat(4, 1fr); /* 4개의 열로 시작 */
+    }
+
+    .container .contents{padding-right: 20px;}
+    .container .list .fix{top: 101px;}
+
+    .header header{padding: 20px 0}
+    .header header h3{font-size: 22px;}
+
+    .videoArea{padding-bottom: 30px}
+}
+
+@media (max-width: 900px) {
+    .container{display: block; padding-top: 0;}
+    .container .contents{padding-right: 0;}
+    .container .list .fix{position: inherit;}
+
+
+    .header{display: block;}
+    .header header{width: 100%;}
+    .header header h3{font-size: 16px;}
+    .header header p{font-size: 12px;}
+    .header .action{display: none;}
+
+    .videoArea{border: none}
+    .action{display: flex;}
+
+    .tab{border-bottom: 1px solid #222; padding-bottom: 0}
+    .tab button{flex: 1; font-size: 14px; padding-bottom: 10px;}
+}

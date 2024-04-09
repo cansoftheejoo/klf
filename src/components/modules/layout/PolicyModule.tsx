@@ -2,6 +2,7 @@ import { getPolicy } from "@/pages/api/layout";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 import styles from './PolicyModule.module.css'
+import Loading from "@/components/ui/loading/Loading";
 
 const PolicyModule = () => {
     const router = useRouter()
@@ -15,7 +16,7 @@ const PolicyModule = () => {
 
 
     if(status == 'loading'){
-        return 
+        return <Loading />
     }
 
     if (status == 'error') {

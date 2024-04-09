@@ -21,7 +21,7 @@ const Footer = () => {
     }
 
     if (status == 'error') {
-        return <p>사이트정보 가져오는 동안 문제가 발생했습니다</p>;
+        return <p className="nothing">사이트정보 가져오는 동안 문제가 발생했습니다</p>;
     }
 
     

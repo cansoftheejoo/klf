@@ -1,0 +1,8 @@
+.container{padding: 50px 0; max-width: 500px; margin: 0 auto; min-height: 80vh;}
+.container h3{font-size: 20px; font-weight: 500;}
+.container .result{margin-top: 50px; border: 1px solid #555; border-radius: 10px; padding: 20px;}
+.container .result .code{margin-bottom: 15px; font-weight: 500;}
+.container .result .info dl{display: flex; flex-wrap: wrap; font-size: 14px; margin: 10px 0;}
+.container .result .info dl dt{width: 100px; opacity: 0.8;}
+.container .result .btns{display: flex; gap: 10px; margin-top: 30px;}
+.container .result .btns button{flex: 1;}

@@ -102,7 +102,7 @@ export const postAddClassEdit = async (value:any) => {
 
 // 강의 삭제
 export const postAddClassDel = async (value:any) => {
-    const { data } = await  postUserData(`/mypage.php?trace=online_del`, value);
+    const { data } = await  postUserMbus(`/mypage.php?trace=online_del`, value);
     return data;
 };
 

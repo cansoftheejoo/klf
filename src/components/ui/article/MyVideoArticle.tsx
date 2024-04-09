@@ -34,7 +34,11 @@ const MyVideoArticle = ({
     const [toggle, setToggle] = useState(false)
     const node = useRef<HTMLDivElement | null>(null);
 
-
+    const stateName = [
+        '승인대기중',
+        '판매중',
+        '판매중지',
+    ]
 
     useEffect(() => {
 
@@ -54,20 +58,7 @@ const MyVideoArticle = ({
         };
     }, [toggle]);
 
-    // 삭제 모달 열기
-    const dispatch = useDispatch();
 
-    const handleDel = () => {
-        setToggle(false)
-        dispatch(alertToggle())
-        onDel(idx)
-    };
-
-    const handleStop = () => {
-        setToggle(false)
-        dispatch(alertToggle())
-        onStop(idx)
-    };
 
     return (
         <div className={styles.container}>
@@ -81,7 +72,7 @@ const MyVideoArticle = ({
                     <h5 className='ellipsis2'>{item?.title}</h5>
                     <p className={styles.price}>{AddCommaNum(item?.pay_amount ?? 0)}원</p>
                     <div className={styles.info}>
-                        <p className={styles.sell}>판매: {item?.sale_cnt} 건</p>
+                        <p className={styles.sell}>{item?.state ? `${stateName[Number(item?.state) - 1]} / ` : ''} 판매: {item?.sale_cnt} 건</p>
                     </div>
                 </div>
             </article>
@@ -94,8 +85,8 @@ const MyVideoArticle = ({
                 {toggle && (
                 <div className={styles.moreModal} ref={node}>
                     <button onClick={() => router.push(`/mypage/open/write?idx=${item?.no}`)}>강의 편집</button>
-                    <button onClick={handleDel}>강의 삭제</button>
-                    <button onClick={handleStop}>강의 중지</button>
+                    <button onClick={onDel}>강의 삭제</button>
+                    <button onClick={onStop}>강의 {item?.state == '3' ? '재개' : '중지'}</button>
                 </div>
                 )}
             </div>

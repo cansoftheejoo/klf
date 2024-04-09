@@ -12,7 +12,11 @@ const SignUpCompayList = ({ register  }:any) => {
 
 
     if(status == 'loading'){
-        return <p></p>
+        return (
+            <select>
+                <option value="">가맹점 선택</option>
+            </select>
+        )
     }
 
     if (status == 'error') {

@@ -2,6 +2,7 @@ import { useState } from "react";
 import bg from '/public/images/count-banner-bg.png';
 import { useQuery } from "react-query";
 import { getVideoCount } from "@/pages/api/main";
+import Spinner from "@/components/ui/loading/Spinner";
 
 const MainCountBanner = () => {
 
@@ -17,7 +18,7 @@ const MainCountBanner = () => {
 
 
     if(status == 'loading'){
-        return <p></p>
+        return <Spinner />
     }
 
     if (status == 'error') {

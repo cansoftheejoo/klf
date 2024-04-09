@@ -1,6 +1,7 @@
 import MypageLayout from "@/components/modules/mypage/MypageLayout";
 import VideoCard from "@/components/ui/article/VideoCard";
 import MoreBtn from "@/components/ui/btn/MoreBtn";
+import Loading from "@/components/ui/loading/Loading";
 import Pagination from "@/components/ui/pagination/Pagination";
 import { getMySubscribe } from "@/pages/api/mypage";
 import { lastPage } from "@/util/common";
@@ -19,9 +20,10 @@ const MyClassScreen = () => {
     }))
 
     if(status == 'loading'){
-        return 
+        return <Loading />
     }
     
+
     if(status == 'error'){
         return <div>로딩 실패</div>
     }
@@ -55,6 +57,7 @@ const MyClassScreen = () => {
                                         store_name={item?.store_name}
                                         poster_url={item?.poster_url}
                                         title={item?.title}
+                                        link={`/mypage/class/${item?.online_idx}`}
                                     />
                                 ))}
                             </div>

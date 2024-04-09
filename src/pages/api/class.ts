@@ -1,6 +1,6 @@
 import { ClassViewType, categoryClassListFilterType } from "@/type/class";
 import { getData, getUserData } from "./get";
-import { postUserData } from "./post";
+import { postUserData, postUserMbus } from "./post";
 
 
 // 카테고리 정보
@@ -31,13 +31,23 @@ export const getClassView = ({
     no,
 }:{
     no:string
+}) => async () => await getUserData('/main.php?trace=online_view_every', {
+    no: no,
+})
+
+// 수강중인 강의 상세
+export const getMyClassView = ({
+    no,
+}:{
+    no:string
 }) => async () => await getUserData('/mypage.php?trace=online_view', {
     no: no,
 })
 
+
 // 강의 시청 업데이트
 export const postUpdateVideoView = async (value:any) => {
-    const { data } = await  postUserData(`/mypage.php?trace=online_play_list`, value);
+    const { data } = await  postUserMbus(`/mypage.php?trace=online_play_list`, value);
     return data;
 };
 
@@ -91,5 +101,22 @@ export const postClassReviewWrite = async (value:any) => {
 // 강의 후기 삭제
 export const postClassReviewDel = async (value:any) => {
     const { data } = await  postUserData(`/main.php?trace=review_del`, value);
+    return data;
+};
+
+
+/*
+ 결제하기
+*/
+// 주문하기 정보 불러오기
+export const postOrderInfo = async (value:any) => {
+    const { data } = await  postUserData(`/order.php?trace=order_pg`, value);
+    return data;
+};
+
+
+// 결제 완료 정보
+export const postOrderResult = async (value:any) => {
+    const { data } = await  postUserData(`/order.php?trace=order_result`, value);
     return data;
 };

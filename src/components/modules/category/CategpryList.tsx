@@ -1,5 +1,6 @@
 import VideoCard from "@/components/ui/article/VideoCard";
 import MoreBtn from "@/components/ui/btn/MoreBtn";
+import Loading from "@/components/ui/loading/Loading";
 import Pagination from "@/components/ui/pagination/Pagination";
 import { useCategoryClassList } from "@/hook/class";
 import { getCategoryClassList } from "@/pages/api/class";
@@ -39,11 +40,11 @@ const CategoryList = ({
 
 
     if(status == 'loading'){
-        return <p></p>
+        return <Loading />
     }
 
     if (status == 'error') {
-        return <p>데이터 로딩 문제가 발생했습니다</p>;
+        return <p className="nothing">데이터 로딩 문제가 발생했습니다</p>;
     }
 
     return (

@@ -2,8 +2,9 @@ import { getCategory } from "@/pages/api/main";
 import { useQuery } from "react-query";
 
 const AddClassCategory = ({
+    init = '',
     onChange = (val:any) => {}
-}) => {
+}:any) => {
 
     const { data, status } = useQuery('getCategory', getCategory, {
         onSuccess: res => {
@@ -17,7 +18,11 @@ const AddClassCategory = ({
 
 
     if(status == 'loading'){
-        return <p></p>
+        return (
+            <select>
+                <option value="">카테고리 선택</option>
+            </select>
+        )
     }
 
     if (status == 'error') {
@@ -26,7 +31,9 @@ const AddClassCategory = ({
     
 
     return (
-        <select className="container" name="category" onChange={e => {
+        <select className="container" name="category"
+        defaultValue={init}
+        onChange={e => {
             onChange({
                 no: e.target.value,
                 category_id:  e.target.selectedOptions[0].dataset.category_id,

@@ -22,7 +22,7 @@ const BaseLayout = ({ children }: {
         </Head>
         {/* 헤더 */}
         <Header />
-        <main>
+        <main style={{ minHeight: '80vh' }}>
             {children}
         </main>
         {/* <BottomNavi /> */}

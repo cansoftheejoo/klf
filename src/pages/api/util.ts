@@ -1,7 +1,7 @@
 import axios from "axios";
 import { logout, refreshToken } from "./auth";
 
-export const BASE_URL = 'http://admin.franchise-online.co.kr/api';
+export const BASE_URL = 'https://admin.franchise-online.co.kr/api';
 
 // axios 인스턴스 설정
 const axiosApi = (url:any, options?:any) => {
@@ -27,7 +27,6 @@ authApi.interceptors.request.use(
 
 		const res = localStorage.getItem('user');
 		const access_token = localStorage.getItem('access_token');
-		const MMusToken = localStorage.getItem('X-Mbus-Token');
         if (res) {
 		    json = JSON.parse(res)
         }
@@ -53,15 +52,12 @@ authApi.interceptors.request.use(
 // 토큰 만료시 갱신
 authApi.interceptors.response.use(
     async response => {
-		// console.log(response)
 		if(response.data.result == 'expire'){
 			refreshToken()
 		} else if(response.data.result == 'empty'){
-			// logout();
-			// location.href= '/'
+			logout();
 		} else if(response.data.result == 'error'){
 			// logout();
-			// location.href= '/'
 		}
 		return response
 	},

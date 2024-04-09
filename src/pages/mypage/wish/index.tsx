@@ -1,6 +1,7 @@
 import MypageLayout from "@/components/modules/mypage/MypageLayout";
 import VideoCard from "@/components/ui/article/VideoCard";
 import MoreBtn from "@/components/ui/btn/MoreBtn";
+import Loading from "@/components/ui/loading/Loading";
 import Pagination from "@/components/ui/pagination/Pagination";
 import { getClassBookmarkUpdate } from "@/pages/api/class";
 import { getMyWishList } from "@/pages/api/mypage";
@@ -43,7 +44,7 @@ const MyWishScreen = () => {
     }))
 
     if(status == 'loading'){
-        return 
+        return <Loading />
     }
     
     if(status == 'error'){
@@ -70,18 +71,20 @@ const MyWishScreen = () => {
                                   list_keyword?:string,
                                   duration?:string,
                                   poster_url?:string,
+                                  study_pay_yn:string,
                                 }, i:number) => (
                                     <div
                                     key={`CategpryList${i}`}
                                     style={{ position: 'relative' }}
                                     >
-                                        <button onClick={() => item?.online_idx ?  delWish(item?.online_idx) : ''} style={{ position: 'absolute', zIndex: 2, right: 10, top: 10 }}><Icon icon="material-symbols:close" fontSize={18} color="#ccc" /></button>
+                                        <button onClick={() => item?.online_idx ?  delWish(item?.online_idx) : ''} style={{ position: 'absolute', zIndex: 2, left: 10, top: 10 }}><Icon icon="material-symbols:close" fontSize={18} color="#ccc" /></button>
                                         <VideoCard
                                             
                                             light={true}  
                                             store_name={item?.store_name}
                                             poster_url={item?.poster_url}
                                             title={item?.title}
+                                            state={item?.study_pay_yn}
                                         />
                                     </div>
                                 ))}

@@ -8,6 +8,7 @@ import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { postCheckUserNickname } from "@/pages/api/member";
 import { getMyInfo, postEditInfo, postWithdraw } from "@/pages/api/mypage";
+import Loading from "@/components/ui/loading/Loading";
 
 const MypageInfoForm = () => {
 
@@ -163,7 +164,7 @@ const MypageInfoForm = () => {
 
 
     if(status == 'loading'){
-        return <p></p>
+        return <Loading />
     }
 
     if (status == 'error') {

@@ -3,6 +3,7 @@ import { getCustomInquiry } from "@/pages/api/main";
 import { useQuery } from "react-query";
 import MainContactWrite from "./MainContactWrite";
 import { useState } from "react";
+import Spinner from "@/components/ui/loading/Spinner";
 
 const MainContact = () => {
 
@@ -29,11 +30,11 @@ const MainContact = () => {
     })
 
     if(status == 'loading'){
-        return <div></div>
+        return <Spinner />
     }
 
     if (status == 'error') {
-        return <p>배너를 가져오는 동안 문제가 발생했습니다</p>;
+        return <p className="nothing">배너를 가져오는 동안 문제가 발생했습니다</p>;
     }
 
     if(!data) return

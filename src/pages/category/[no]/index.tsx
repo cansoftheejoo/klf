@@ -1,6 +1,7 @@
 import SubLayout from "@/components/layout/SubLayout";
 import CategorySub from "@/components/modules/category/CategorySub";
 import CategpryList from "@/components/modules/category/CategpryList";
+import Loading from "@/components/ui/loading/Loading";
 import PageHeader from "@/components/ui/page/PageHeader";
 import SortHeader from "@/components/ui/page/SortHeader";
 import { getCategoryInfo } from "@/pages/api/class";
@@ -24,9 +25,7 @@ const CategoryScreen = () => {
     })
 
 
-    // if(status == 'loading'){
-    //     return 
-    // }
+
 
     if (status == 'error') {
         return <p>강의 리스트를 가져오는 동안 문제가 발생했습니다</p>;

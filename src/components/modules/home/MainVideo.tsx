@@ -29,8 +29,10 @@ const MainVideo = ({
         return <p>데이터 로딩 문제가 발생했습니다</p>;
     }
 
-    console.log(data)
-    return <div></div>
+    if(data?.statusCode == 400){
+        return <p className="nothing">데이터 로딩 문제가 발생했습니다</p>;
+    }
+
 
 
     return (

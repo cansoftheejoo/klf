@@ -32,11 +32,11 @@ const ClassBookMark = () => {
 
     
     if(status == 'loading'){
-        return ;
+        return <div></div>;
     }
 
     if (status == 'error') {
-        return <p>문제가 발생했습니다</p>;
+        return <p className="nothing">문제가 발생했습니다</p>;
     }
 
 
