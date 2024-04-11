@@ -1,9 +1,9 @@
 .container{
-    display: flex; flex-wrap: wrap; gap: 73px; align-items: flex-start; justify-content: center; padding: var(--vertical-padding) 0; border-bottom: 1px solid #555; margin-bottom: 55px;
+    display: flex; flex-wrap: nowrap; overflow-x: auto; gap: 73px; align-items: flex-start; justify-content: center; padding: var(--vertical-padding) 0; border-bottom: 1px solid #555; margin-bottom: 55px;
     a{
         display: inline-flex; align-items: center; flex-direction: column; gap: 20px; 
         .icon{width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: #faf3e0; color: var(--color-brown); font-size: 28px; transition: all .2s;}
-        p{font-size: 18px; color: #aaa; transition: all .2s; }
+        p{font-size: 18px; color: #aaa; transition: all .2s; white-space: nowrap;}
 
         &:hover{
             .icon{background: var(--color1); color: #423c2d}
@@ -14,7 +14,7 @@
 
 @media (max-width: 1400px) {
     .container{
-        gap: 40px;
+        gap: 40px; justify-content: flex-start;
         a{
             .icon{width: 70px; height: 70px;}
             p{font-size: 16px;}

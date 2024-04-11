@@ -26,7 +26,7 @@ const VideoCard = ({
                 {type && type == '2' && (
                     <span className={styles.isPay}>무료강의</span>
                 )}
-                {poster_url && (
+                {poster_url ? (
                     <Image
                         src={poster_url}
                         width={345}
@@ -34,6 +34,8 @@ const VideoCard = ({
                         alt={title ?? '썸네일'}
                         style={{ objectFit: 'cover', display: 'block', width: '100%' }}
                     />
+                ): (
+                    <div className={styles.empty}></div>
                 )}
                  {study_pay_yn && study_pay_yn == 'Y' && (
                     <span className={`${styles.state} ${styles.ing }`}>수강중</span>

@@ -2,8 +2,9 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
+  -ms-flex-wrap: nowrap;
+      flex-wrap: nowrap;
+  overflow-x: auto;
   gap: 73px;
   -webkit-box-align: start;
       -ms-flex-align: start;
@@ -55,6 +56,7 @@
   color: #aaa;
   -webkit-transition: all .2s;
   transition: all .2s;
+  white-space: nowrap;
 }
 
 .container a:hover .icon {
@@ -69,6 +71,9 @@
 @media (max-width: 1400px) {
   .container {
     gap: 40px;
+    -webkit-box-pack: start;
+        -ms-flex-pack: start;
+            justify-content: flex-start;
   }
   .container a .icon {
     width: 70px;
