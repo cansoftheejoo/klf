@@ -115,7 +115,7 @@ const MyProfitClassList = () => {
                     result={num => {
                         setBoardParams({
                             ...boardParams,
-                            nowPage: num,
+                            nowPage: Number(num),
                         })
                     }}
                     />

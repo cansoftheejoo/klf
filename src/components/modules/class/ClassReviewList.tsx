@@ -67,7 +67,7 @@ const ClassReviewList = () => {
                     result={num => {
                         setBoardParams({
                             ...boardParams,
-                            nowPage: num,
+                            nowPage: Number(num),
                         })
                     }}
                     />

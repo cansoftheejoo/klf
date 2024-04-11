@@ -10,7 +10,7 @@ const Pagination = ({
 }:{
     currentPage: number,
     totalPages: number,
-    result?: (val:number|string) => void,
+    result?: (val:number) => void,
 }) => {
 
     const [PageList, setPageList] = useState<number[]>([])
