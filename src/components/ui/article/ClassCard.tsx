@@ -17,7 +17,7 @@ const ClassCard = ({
                 <Link href={link} >
                     <div className={styles.img}>
                         {study_pay_yn && study_pay_yn == 'Y' && (
-                            <span className="state">수강중</span>
+                            <span className={styles.state}>수강중</span>
                         )}
                         <Image 
                             src={poster_url}
