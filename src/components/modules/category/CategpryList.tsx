@@ -57,16 +57,17 @@ const CategoryList = ({
                         return (
                             <div className="list" key={`CsBoardList${idx}`}>
                                 {page?.data?.map(({
-                                     no,
-                                     title,
-                                     store_name,
-                                     category,
-                                     keyword,
-                                     list_keyword,
-                                     amount,
-                                     pay_amount,
-                                     duration,
-                                     poster_url,
+                                    no,
+                                    type,
+                                    title,
+                                    store_name,
+                                    category,
+                                    keyword,
+                                    list_keyword,
+                                    amount,
+                                    pay_amount,
+                                    duration,
+                                    poster_url,
                                 }:any, i:number) => (
                                     <VideoCard 
                                         key={`CategoryList${no}`}
@@ -75,6 +76,7 @@ const CategoryList = ({
                                         no={no}
                                         store_name={store_name}
                                         poster_url={poster_url}
+                                        type={type}
                                         />
                                 ))}
                             </div>

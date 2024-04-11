@@ -44,6 +44,7 @@ const MainClass = () => {
                     pay_amount,
                     duration,
                     poster_url,
+                    study_pay_yn
                 }:any, i:number) => (
                 <ClassCard
                     key={`MainClass-ClassCard-${no}`}
@@ -52,6 +53,7 @@ const MainClass = () => {
                     title={title}
                     maker={store_name}
                     min={10}
+                    study_pay_yn={study_pay_yn}
                 />
                 ))}
                

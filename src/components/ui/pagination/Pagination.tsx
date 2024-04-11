@@ -6,7 +6,11 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 const Pagination = ({
     currentPage = 1,
     totalPages = 1,
-    result = (val:number) => {},
+    result = (val) => {},
+}:{
+    currentPage: number,
+    totalPages: number,
+    result?: (val:number|string) => void,
 }) => {
 
     const [PageList, setPageList] = useState<number[]>([])
@@ -18,7 +22,7 @@ const Pagination = ({
 
     const [lastPageNum, setLastPageNum] = useState<number>(0)
 
-    const PAGE_LENGTH = 20 // 페이지당 리스트 수
+    const PAGE_LENGTH = 10 // 페이지당 리스트 수
     const MAX_PAGE_PER_GROUP = 5; // 한 그룹당 보여줄 페이지 수
 
     function goToPage(page:number) {
@@ -31,13 +35,14 @@ const Pagination = ({
     function goToPrevPage() {
         if (pageNum > 1) {
             setPageNum(prev => prev - 1);
-            result(pageNum)
+            result(pageNum - 1)
         }
     }
     function goToPrevGroup() {
         let thisGroup = Math.floor((pageNum - 1) / MAX_PAGE_PER_GROUP) // 0,1,2 ...
         let newInit = ((thisGroup - 1) * MAX_PAGE_PER_GROUP) + 1
 
+        
         if(thisGroup > 0){
             setPageNum(newInit)
             setPageList(getPages());
@@ -49,23 +54,28 @@ const Pagination = ({
     function goToNextPage() {
         if (pageNum < lastNum) {
             setPageNum(prev => prev + 1);
-            result(pageNum)
+            result(pageNum + 1)
         }
     }
     function goToNextGroup() {
+
+
         let thisGroup = Math.floor((pageNum - 1) / MAX_PAGE_PER_GROUP)
         let newInit = ((thisGroup + 1) * MAX_PAGE_PER_GROUP) + 1
 
         let lastGroup = Math.floor((lastPageNum - 1) / MAX_PAGE_PER_GROUP)
         let lastNewGroup = ((lastGroup + 1) * MAX_PAGE_PER_GROUP) + 1
         
-        console.log(newInit, lastNewGroup)
-   
-        if(newInit <= lastNewGroup){
-          setPageNum(newInit)
-          setPageList(getPages());
-          result(newInit)
+        if(totalPages >= newInit){
+            if(newInit <= lastNewGroup){
+                setPageNum(newInit)
+                setPageList(getPages());
+                result(newInit)
+              }
         }
+
+   
+        
 
     }
     function getPages() {

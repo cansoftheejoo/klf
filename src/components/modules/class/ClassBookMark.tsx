@@ -1,3 +1,4 @@
+import { useCheckSignIn } from "@/hook/common";
 import { getClassBookmark, getClassBookmarkUpdate } from "@/pages/api/class";
 import { Icon } from "@iconify/react";
 import { useRouter } from "next/router";
@@ -10,6 +11,8 @@ const ClassBookMark = () => {
 
     const queryClient = useQueryClient()
 
+    const isLoggedIn = useCheckSignIn();
+
     const setBookmark =  useMutation(getClassBookmarkUpdate, {
         onSuccess: res => {
 
@@ -18,6 +21,12 @@ const ClassBookMark = () => {
     })
 
     const toggleBookmark = () => {
+        
+        if(!isLoggedIn){
+            if(confirm('로그인 후 이용이 가능합니다. 로그인 페이지로 이동하시겠습니까?')){
+                router.push(`/login?prev=${router.asPath}`)
+            }
+        }
         setBookmark.mutate({
             no: idx,
             recom_yn : data.recom_yn

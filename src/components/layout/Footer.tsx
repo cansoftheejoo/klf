@@ -32,13 +32,13 @@ const Footer = () => {
                 <div className='inner'>
                     <div className={styles.inner}>
                         <div className='left'>
-                            <Link href={'/notice'}>공지사항</Link>
+                            <Link href={'/board/notice_list'}>공지사항</Link>
                             <Link href={'/policy/policy'}>이용약관</Link>
                             <Link href={'/policy/private'}>개인정보취급방침</Link>
                         </div>
                         <ul className="right">
-                            <li><Link href={'/faq'}>자주묻는 질문</Link></li>
-                            <li><Link href={'/notice'}>기업/단체 교육문의</Link></li>
+                            <li><Link href={'/board/fag_list'}>자주묻는 질문</Link></li>
+                            {/* <li><Link href={'/notice'}>기업/단체 교육문의</Link></li> */}
                         </ul>
                     </div>
                 </div>

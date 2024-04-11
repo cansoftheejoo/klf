@@ -85,16 +85,19 @@ const MainVideo = ({
                       pay_amount,
                       duration,
                       poster_url,
+                      study_pay_yn
                 }:any, i:number) => (
                 <SwiperSlide key={`MainVideo-${no}`} >
                     <VideoCard 
                     light={title == '무료 강의' ? true : false} 
+                    no={no}
                     title={title}
                     store_name={store_name}
                     poster_url={poster_url}
                     amount={amount}
                     pay_amount={pay_amount}
                     keyword={keyword}
+                    study_pay_yn={study_pay_yn}
                     />
                 </SwiperSlide>
                  ))}

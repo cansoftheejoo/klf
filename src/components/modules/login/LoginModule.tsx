@@ -10,8 +10,8 @@ import { useLogin } from "@/hook/common";
 const LoginModule = () => {
 
     const router = useRouter()
+    const prev = router.query?.prev as string
 
-    
     // 회원 타입
     const [memberType, setMemberType] = useState('1')
 
@@ -32,9 +32,19 @@ const LoginModule = () => {
 
             if(res?.result == 'success'){
 
-                onLogin({
-                    res: res
-                })
+                if(prev){
+                    onLogin({
+                        res: res,
+                        path: prev,
+                        reload: false
+                    })
+                } else {
+                    onLogin({
+                        res: res
+                    })
+                }
+
+               
              
             } else {
                 alert(res?.msg)

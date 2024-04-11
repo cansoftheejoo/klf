@@ -18,8 +18,9 @@
 .header header p{font-size: 15px; color: #999; margin-top: 5px;}
 .header .action{width: 15%; display: flex; align-items: center; justify-content: flex-end; gap: 15px;}
 
-.videoArea{border-bottom: 5px solid #1c1c1c; padding-bottom: var(--vertical-padding); min-height: 550px;}
-.video{background: #222;}
+.videoArea{border-bottom: 5px solid #1c1c1c; padding-bottom: var(--vertical-padding); min-height: 550px; text-align: center;}
+.video{background: #222; display: inline-block;  max-width: 883px; width: 100%;}
+.video img{max-width: 100%;}
 
 .action{display: none; align-items: center; justify-content: flex-end; gap: 10px;}
 
@@ -29,6 +30,7 @@
 
 .tabContents{padding: 30px 0;}
 
+.mobilePrice{display: none;}
 
 .priceBox{background-color: #222; padding: 20px; border-radius: 15px; margin-bottom: 20px;}
 .priceBox button{font-weight: 500; font-size: 18px;}
@@ -52,10 +54,14 @@
     .header header{padding: 20px 0}
     .header header h3{font-size: 22px;}
 
-    .videoArea{padding-bottom: 30px}
+    .videoArea{padding-bottom: 30px; min-height: auto;}
+    .video img{height: auto;}
+
+    .priceBox .pay .price{font-size: 22px;}
 }
 
-@media (max-width: 900px) {
+
+@media (max-width: 1200px) {
     .container{display: block; padding-top: 0;}
     .container .contents{padding-right: 0;}
     .container .list .fix{position: inherit;}
@@ -72,4 +78,11 @@
 
     .tab{border-bottom: 1px solid #222; padding-bottom: 0}
     .tab button{flex: 1; font-size: 14px; padding-bottom: 10px;}
+
+    .mobilePrice{display: block; margin: 0 auto; margin-top: 20px; max-width: 500px;}
+
+    .container .list .priceBox{display: none;}
+    .priceBox .pay .price{font-size: 18px;}
+    .priceBox button{font-size: 14px;}
+    .priceBox .result .message{font-size: 14px;}
 }

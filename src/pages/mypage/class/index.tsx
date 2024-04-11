@@ -49,6 +49,8 @@ const MyClassScreen = () => {
                                   list_keyword?:string,
                                   duration?:string,
                                   poster_url?:string,
+                                  start_date?:string,
+                                  end_date?:string,
                                 }, i:number) => (
                                     <VideoCard
                                         key={`CategpryList${i}`}
@@ -57,6 +59,8 @@ const MyClassScreen = () => {
                                         store_name={item?.store_name}
                                         poster_url={item?.poster_url}
                                         title={item?.title}
+                                        start_date={item?.start_date}
+                                        end_date={item?.end_date}
                                         link={`/mypage/class/${item?.online_idx}`}
                                     />
                                 ))}

@@ -6,6 +6,7 @@ import { alertToggle } from '@/redux/alert';
 import { useRouter } from 'next/router';
 import ThumbnailImg from '../thumbnail/ThumbnailImg';
 import { AddCommaNum } from '@/util/common';
+import Image from 'next/image';
 
 const MyVideoArticle = ({
     idx = '',
@@ -64,9 +65,16 @@ const MyVideoArticle = ({
         <div className={styles.container}>
             <article onClick={() => {}}>
                 <div className={styles.img}>
-                    <ThumbnailImg 
-                        img={item?.poster_url}
-                    />
+                  
+                    {item?.poster_url && (
+                        <Image
+                            src={item?.poster_url}
+                            width={315}
+                            height={185}
+                            alt={item?.title ?? '썸네일'}
+                            style={{ objectFit: 'cover', display: 'block', width: '100%' }}
+                        />
+                    )}
                 </div>
                 <div className={styles.txt}>
                     <h5 className='ellipsis2'>{item?.title}</h5>

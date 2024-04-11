@@ -56,8 +56,9 @@ authApi.interceptors.response.use(
 			refreshToken()
 		} else if(response.data.result == 'empty'){
 			logout();
-		} else if(response.data.result == 'error'){
+		} else if(response.data.statusCode == 400){
 			// logout();
+			// history.back()
 		}
 		return response
 	},

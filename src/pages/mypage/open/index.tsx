@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import { alertToggle } from "@/redux/alert";
 import { useRouter } from "next/router";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { getManageClass, postAddClassDel, postAddClassStop } from "@/pages/api/mypage";
+import { getManageClass, postAddClassDel, postAddClassRestart, postAddClassStop } from "@/pages/api/mypage";
 import Pagination from "@/components/ui/pagination/Pagination";
 import { lastPage } from "@/util/common";
 import Loading from "@/components/ui/loading/Loading";
@@ -82,6 +82,25 @@ const MyOpenClassScreen = () => {
         })
     }
 
+    // 강의 재개
+    const setClassRestart = useMutation(postAddClassRestart,{
+        onSuccess: res => {
+            toggle()
+             
+            if(res?.result == 'success'){
+                alert('강의 재개가 신청되었습니다')
+                queryClient.invalidateQueries([`getManageClass${type}`])
+            } else {
+                alert(res?.msg)
+            }
+        }
+    })
+    const onClassRestart = () => {
+        setClassRestart.mutate({
+            "no" : selectIdx         
+        })
+    }
+
 
     const { data, status } = useQuery([`getManageClass${type}`, boardParams], getManageClass({
         viewType: boardParams.type,
@@ -152,7 +171,7 @@ const MyOpenClassScreen = () => {
                 }
                 info={alertType == 'del' ? 
                     "삭제한 강의는 다시 되돌릴수 없습니다." : 
-                    "판매를 재개하시려면 강의 승인을 다시 받아야 합니다."
+                    "확인시 바로 판매중으로 전환됩니다."
                 }
                 // onConfirm={handleAlertConfirm}
                 active={activeAlert}
@@ -160,6 +179,8 @@ const MyOpenClassScreen = () => {
                 onConfirm={() => {
                     if(alertType == 'del'){
                         onClassDel()
+                    } else if(alertType == 'restart'){
+                        onClassRestart()
                     } else {
                         onClassStop()
                     }

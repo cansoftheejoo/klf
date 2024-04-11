@@ -6,10 +6,15 @@
 
     .img{
         // padding-top: 58%; max-height: 175px;
+        // min-width: 345px;
+        min-height: 190px;
+        width: 100%;
         overflow: hidden;
         background: #ccc no-repeat center center/cover; position: relative;
         .state{font-size: 12px; background: var(--color1); color: #333; font-weight: 500; display: inline-block; padding: 15px 10px; position: absolute; right: 0; top: 0; border-bottom-left-radius: 10px;}
         .state.end{background: #555; color: #fff}
+
+        .isPay{background-color: var(--color1); color: #222; display: inline-block; border-radius: 5px; padding: 5px 8px; font-size: 12px; position: absolute; top: 10px; left: 10px; z-index: 2; font-weight: 700;}
     }
     .txt{
         padding: 15px;
@@ -40,6 +45,9 @@
 @media (max-width: 1400px) {
 
     .container{
+        .img{
+            min-height: auto;
+        }
         .txt{
             h5{font-size: 14px;}
             .user{font-size: 13px;}

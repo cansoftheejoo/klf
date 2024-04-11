@@ -96,7 +96,7 @@ export const getAddClassView = ({
 
 // 강의 수정
 export const postAddClassEdit = async (value:any) => {
-    const { data } = await  postUserData(`/mypage.php?trace=online_edit`, value);
+    const { data } = await  postUserMbus(`/mypage.php?trace=online_edit`, value);
     return data;
 };
 
@@ -109,6 +109,13 @@ export const postAddClassDel = async (value:any) => {
 // 강의 중지
 export const postAddClassStop = async (value:any) => {
     const { data } = await  postUserData(`/mypage.php?trace=online_stop`, value);
+    return data;
+};
+
+
+// 강의 재개
+export const postAddClassRestart = async (value:any) => {
+    const { data } = await  postUserData(`/mypage.php?trace=online_on`, value);
     return data;
 };
 

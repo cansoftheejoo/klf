@@ -1,4 +1,4 @@
-import { getData } from "./get";
+import { getData, getUserData } from "./get";
 import { postUserData } from "./post";
 
 /**
@@ -12,7 +12,7 @@ export const getMainBanner = async () => await getData('/main.php?trace=banner')
 export const getCategory = async () => await getData('/main.php?trace=category');
 
 // 메인 강의 목록
-export const getMainVideo = (type:string, cnt:number) => async () => await getData('/main.php?trace=online', {
+export const getMainVideo = (type:string, cnt:number) => async () => await getUserData('/main.php?trace=online', {
     type: type,
     row_cnt: cnt
 })

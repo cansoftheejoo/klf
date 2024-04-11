@@ -1,13 +1,9 @@
-import CategorySub from "@/components/modules/category/CategorySub";
 import ClassViewList from "@/components/modules/class/ClassViewList";
 import ClassViewMore from "@/components/modules/class/ClassViewMore";
 import PgModal from "@/components/modules/class/pg/PgModal";
-import { getClassView, postUpdateVideoView } from "@/pages/api/class";
-import { postUserData } from "@/pages/api/post";
 import { ClassViewType } from "@/type/class";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { useMutation, useQuery } from "react-query";
 import styles from './ClassViewModule.module.css'
 import ClassBookMark from "./ClassBookMark";
 import { Icon } from "@iconify/react";
@@ -69,25 +65,29 @@ const ClassViewModule = ({
                     <div className={styles.contents}>
                         <div className={styles.videoArea}>
                             <div className={styles.video}>
-                            
                                 {/* https://play.mbus.tv/[배포id]?label=[로그인한 아이디+study_idx] */}
-                                {/* <iframe 
-                                    width='auto'
-                                    height='undefined' 
-                                    src={`https://play.mbus.tv/${item.object_id}?label=${isLoggedIn?.userid}${idx}`}
-                                    frameBorder='0' 
-                                    allowFullScreen 
-                                    style={{ width: '100%', height: 550 }} 
-                                ></iframe> */}
-                                {item?.poster_url && (
-                                    <Image
-                                        src={item?.poster_url}
-                                        width={883}
-                                        height={550}
-                                        alt={item?.title ?? '썸네일'}
-                                        style={{ objectFit: 'cover' }}
-                                    />
+                                {item?.type == '1' ? (
+                                    item?.poster_url && (
+                                        <Image
+                                            src={item?.poster_url}
+                                            width={883}
+                                            height={550}
+                                            alt={item?.title ?? '썸네일'}
+                                            style={{ objectFit: 'cover' }}
+                                        />
+                                    )
+                                ) : (
+                                    item?.object_id && (<iframe 
+                                        width='auto'
+                                        height='undefined' 
+                                        src={`https://play.mbus.tv/${item.object_id}?label=${isLoggedIn?.userid}${idx}`}
+                                        frameBorder='0' 
+                                        allowFullScreen 
+                                        style={{ width: '100%', height: 550 }} 
+                                    ></iframe>)
                                 )}
+                                
+                          
                             </div>
                         </div>
                         <div className={styles.action}>
@@ -96,12 +96,47 @@ const ClassViewModule = ({
                                 <Icon icon="lucide:share" color="#fff" fontSize={24} />
                             </button>
                         </div>
+                        <div className={styles.mobilePrice}>
+                            <div className={styles.priceBox}>
+                                {item.study_pay_yn == 'N' ? (
+                                    <div className={styles.pay}>
+                                        {item?.type == '1' ? (
+                                        <>
+                                            <p className={styles.price}>
+                                                <b>{AddCommaNum(item?.pay_amount ?? 0)}원</b>
+                                                {item?.amount && <span>{AddCommaNum(item?.amount)}원</span>}
+                                            </p>
+                                            <button className="mBtn sColor1 wBtn" onClick={() => {
+                                                if(isLoggedIn){
+                                                    setActivePgModal(true)
+                                                } else {
+                                                    if(confirm('로그인 후 이용이 가능합니다. 로그인 페이지로 이동하시겠습니까?')){
+                                                        router.push('/login')
+                                                    }
+                                                }
+                                            }}>결제하기</button>
+                                        </>
+                                        ) : (
+                                            <div className={styles.result}>
+                                                <p className={styles.message}>무료 강의입니다.<br /></p>
+                                            </div>
+                                        )}
+                                    
+                                    </div>
+                                ) : (
+                                <div className={styles.result}>
+                                    <p className={styles.message}>수강중인 강의입니다.<br /></p>
+                                    <button className="mBtn sColor1 wBtn" onClick={() => router.push(`/mypage/class/${idx}`)}>강의 보러가기</button>
+                                </div>
+                                )}
+                            </div>
+                        </div>
                         <div className={styles.contents}>
                             <div className={styles.tab}>
                                 {tabData.map((e, i) => (
                                     <button 
                                     key={`contentsTab${i}`}
-                                    className={tabActive == i ? 'active' :''}
+                                    className={tabActive == i ? styles.active :''}
                                     onClick={() => setTabActive(i)}
                                     >{e}</button>
                                 ))}
@@ -139,16 +174,27 @@ const ClassViewModule = ({
                             {item.study_pay_yn == 'N' ? (
                                 <div className={styles.pay}>
                                     {item?.type == '1' ? (
-                                    <p className={styles.price}>
-                                        <b>{AddCommaNum(item?.pay_amount ?? 0)}원</b>
-                                        {item?.amount && <span>{AddCommaNum(item?.amount)}원</span>}
-                                    </p>
-                                    ) : (
+                                    <>
                                         <p className={styles.price}>
-                                            <b>무료강의</b>
+                                            <b>{AddCommaNum(item?.pay_amount ?? 0)}원</b>
+                                            {item?.amount && <span>{AddCommaNum(item?.amount)}원</span>}
                                         </p>
+                                        <button className="mBtn sColor1 wBtn" onClick={() => {
+                                            if(isLoggedIn){
+                                                setActivePgModal(true)
+                                            } else {
+                                                if(confirm('로그인 후 이용이 가능합니다. 로그인 페이지로 이동하시겠습니까?')){
+                                                    router.push('/login')
+                                                }
+                                            }
+                                        }}>결제하기</button>
+                                    </>
+                                    ) : (
+                                        <div className={styles.result}>
+                                            <p className={styles.message}>무료 강의입니다.<br /></p>
+                                        </div>
                                     )}
-                                    <button className="mBtn sColor1 wBtn" onClick={() => setActivePgModal(true)}>결제하기</button>
+                                  
                                 </div>
                             ) : (
                             <div className={styles.result}>
@@ -165,7 +211,7 @@ const ClassViewModule = ({
                     </div>
                 </div>
             </div>
-            <ClassViewMore />
+            <ClassViewMore idx={item?.category} />
 
             <AlertModal 
                 title="결제가 취소되었습니다"

@@ -123,6 +123,7 @@ const AddCalssModule = () => {
                     console.log('없음')
 
                     setProgressMsg('강의을 수정중입니다')
+                    console.log(jsonObject)
                     setEdit.mutate(jsonObject)
                     return
                 }
@@ -195,8 +196,15 @@ const AddCalssModule = () => {
                     router.back()
                 }
             }
+            if(res?.keyword){
+                setTagKeyword(res?.keyword)
+            }
+            if(res?.list_keyword){
+                setTagClassKeyword(res?.list_keyword)
+            }
         }
     })
+
 
 
     return (
@@ -211,6 +219,9 @@ const AddCalssModule = () => {
                 </div>
             </ModalLayout>
             <form onSubmit={handleSubmit}>
+                {preData?.data?.no && (
+                    <input type="hidden" name="no" value={preData?.data?.no} />
+                )}
                 <div className="horizontal-form">
                     <article>
                         <h5>*제목</h5>
@@ -239,7 +250,6 @@ const AddCalssModule = () => {
                             <p className="guide">* 쉼표(,)로 키워드를 구분해주세요</p>
                             <div className="inline">
                                 <input type="text" name="keyword" placeholder="키워드를 입력해주세요"
-                                 defaultValue={preData.data?.keyword}
 
                                     value={tagKeyword}
                                     onChange={e => {
