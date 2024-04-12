@@ -14,7 +14,7 @@ jobs:
 
       - name: Create SSH Key
         run: |
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/private-key.pem
+          echo "${{ secrets.REMOTE_SSH_KEY }}" > ~/private-key.pem
           chmod 600 ~/private-key.pem
           
       - name: SSH Remote Commands
