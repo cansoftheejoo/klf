@@ -13,9 +13,9 @@ jobs:
          
       - name: Create SSH Key
         run: |
-          echo "${{ secrets.REMOTE_SSH_KEY }}" >> ~/key.pem
-          chmod 600 ~/key.pem
-          ssh -i ~/key.pem -o StrictHostKeyChecking=no ${{ secrets.USER_NAME }}@${{ secrets.REMOTE_HOST }}
+          echo "$REMOTE_SSH_KEY" >> $HOME/key.pem
+          chmod 600 $HOME/key.pem
+          ssh -i $HOME/key.pem -o StrictHostKeyChecking=no $USER_NAME@$REMOTE_HOST
           whoami
           
         # uses: appleboy/ssh-action@v1.0.3
