@@ -16,9 +16,9 @@ jobs:
         uses: appleboy/ssh-action@master
         with:
           key: ${{ secrets.REMOTE_SSH_KEY }}
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USER }}
-          port: ${{ secrets.PORT }}
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.USER_NAME }}
+          port: ${{ secrets.REMOTE_PORT }}
           script: |
              echo "#START"
 
