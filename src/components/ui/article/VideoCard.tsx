@@ -57,10 +57,16 @@ const VideoCard = ({
                         {keyword.split(',').length > 0 && keyword.split(',').map((word:string) => <li key={`${no}${word}`}>{word}</li>)}
                     </ul>
                     )}
+                    {type == '1' ? (
                     <div className={styles.price}>
                         {amount && <span>{AddCommaNum(amount)}원</span>}
                         {pay_amount && <b>{AddCommaNum(pay_amount)}원</b>}
                     </div>
+                    ): (
+                    <div className={styles.price}>
+                       <b>무료강의</b>
+                    </div> 
+                    )}
                 </>
                 )}
             </div>

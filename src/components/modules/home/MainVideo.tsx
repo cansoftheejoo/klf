@@ -85,7 +85,8 @@ const MainVideo = ({
                       pay_amount,
                       duration,
                       poster_url,
-                      study_pay_yn
+                      study_pay_yn,
+                      type
                 }:any, i:number) => (
                 <SwiperSlide key={`MainVideo-${no}`} >
                     <VideoCard 
@@ -98,6 +99,7 @@ const MainVideo = ({
                     pay_amount={pay_amount}
                     keyword={keyword}
                     study_pay_yn={study_pay_yn}
+                    type={type}
                     />
                 </SwiperSlide>
                  ))}
