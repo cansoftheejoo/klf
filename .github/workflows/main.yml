@@ -10,18 +10,15 @@ jobs:
   
     name: Build
     steps:
-      - name: SSH Remote Commands
-        uses: appleboy/ssh-action@v0.1.9 # ssh 접속하는 오픈소스
+      - uses: actions/checkout@v3
+
+      - name: Run scripts in server
+        uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.REMOTE_IP }} # ec2 인스턴스 ip
-          username: ${{ secrets.USER }} # ubuntu 아이디
-          key: ${{ secrets.SSH_PRIVATE_KEY }} # ec2 인스턴스 pem key
-          port: ${{ secrets.PORT }} # 접속포트번호 (보통 22)
+          key: ${{ secrets.REMOTE_SSH_KEY }}
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          port: ${{ secrets.PORT }}
           script: |
-             whoami
-            # cd /data/nodejs
-            # git pull
-            # npm i
-            # npm run build
-            # pm2 reload klf
+            whoami
 
