@@ -13,9 +13,9 @@ jobs:
       - name: ssh to Linux
         uses: cansoftheejoo/klf@main
         with:
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USER }}
+          key: echo ${{ secrets.SSH_PRIVATE_KEY }}
+          host: echo ${{ secrets.HOST }}
+          username: echo ${{ secrets.USER }}
           script: |
             cd /data/nodejs
             git pull
