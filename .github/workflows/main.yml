@@ -19,7 +19,7 @@ jobs:
           host: ${{ secrets.REMOTE_HOST }}
           username: ${{ secrets.USER_NAME }}
           port: ${{ secrets.REMOTE_PORT }}
-          timeout: 40s 
+          timeout: 60s 
           script: |
              echo "#START"
 
