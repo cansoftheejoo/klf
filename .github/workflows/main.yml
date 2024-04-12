@@ -6,14 +6,14 @@ on:
 
 jobs:
   SSH:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
   
     name: Build
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: SSH Remote Commands
-        uses: appleboy/ssh-action@v0.1.4
+        uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.REMOTE_HOST }}
           username: ${{ secrets.USER_NAME }}
