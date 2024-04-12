@@ -8,14 +8,16 @@ jobs:
   SSH:
     runs-on: ubuntu-latest
   
+    name: Build
     steps:
-      - name: Deploy
-        uses: appleboy/ssh-action@master
+      - name: SSH Remote Commands
+        uses: appleboy/ssh-action@v0.1.4        
         with:
-          host: ${{ secrets.REMOTE_IP }}
-          username: ${{ secrets.REMOTE_SSH_ID }}
-          key: ${{ secrets.REMOTE_SSH_KEY }}
-          port: ${{ secrets.REMOTE_SSH_PORT }}
+          host: ${{ secrets.HOST }}          
+          username: ${{ secrets.USER }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          timeout: 40s  # 30초 기본        
           script: |
              whoami
             # cd /data/nodejs
@@ -23,3 +25,4 @@ jobs:
             # npm i
             # npm run build
             # pm2 reload klf
+
