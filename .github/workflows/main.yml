@@ -20,5 +20,5 @@ jobs:
           username: ${{ secrets.USER }}
           port: ${{ secrets.PORT }}
           script: |
-            npm i
+            cd /data/nodejs
 
