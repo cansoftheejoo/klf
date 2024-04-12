@@ -10,16 +10,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-
+         
       - name: Create SSH Key
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.REMOTE_HOST }}
-          username: ${{ secrets.USER_NAME }}
-          key: ${{ secrets.REMOTE_SSH_KEY }}
-          port: ${{ secrets.REMOTE_PORT }}
-          timeout: 40s
-          script: whoami
+        run: |
+          echo "$REMOTE_SSH_KEY" >> $HOME/key.pem
+          chmod 600 $HOME/key.pem
+          ssh -i $HOME/key.pem -o StrictHostKeyChecking=no ${USER_NAME}@${REMOTE_HOST} 
+          whoami
+          
+        # uses: appleboy/ssh-action@v1.0.3
+        # with:
+          # host: ${{ secrets.REMOTE_HOST }}
+          # username: ${{ secrets.USER_NAME }}
+          # key: ${{ secrets.REMOTE_SSH_KEY }}
+          # port: ${{ secrets.REMOTE_PORT }}
+          # timeout: 40s
+          # script: whoami
           
           
 
