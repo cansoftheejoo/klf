@@ -6,18 +6,17 @@ on:
 
 jobs:
   SSH:
-    runs-on: ubuntu-20.04
-  
     name: Build
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
 
       - name: Create SSH Key
-        uses: appleboy/ssh-action@v0.1.6
+        uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.REMOTE_HOST }}
           username: ${{ secrets.USER_NAME }}
-          key: ${{ secrets.REMOTE_SSH_KEY }}
+          password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.REMOTE_PORT }}
           timeout: 40s
           script: whoami
