@@ -16,13 +16,9 @@ jobs:
         run: |
           echo "${{ secrets.REMOTE_SSH_KEY }}" > ~/private-key.pem
           chmod 600 ~/private-key.pem
+          ssh -i ~/private-key.pem ${{ secrets.USER_NAME }}@${{ secrets.REMOTE_HOST }}
+          whoami
+
           
-      - name: SSH Remote Commands
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.REMOTE_HOST }}
-          username: ${{ secrets.USER_NAME }}
-          key: ${{ secrets.REMOTE_SSH_KEY }}
-          port: 22
-          script: whoami
+
 
