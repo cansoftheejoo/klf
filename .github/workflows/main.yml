@@ -17,8 +17,9 @@ jobs:
           key: ${{ secrets.REMOTE_SSH_KEY }}
           port: ${{ secrets.REMOTE_SSH_PORT }}
           script: |
-            cd /data/nodejs
-            git pull
-            npm i
-            npm run build
-            pm2 reload klf
+             echo $github.workspace
+            # cd /data/nodejs
+            # git pull
+            # npm i
+            # npm run build
+            # pm2 reload klf
