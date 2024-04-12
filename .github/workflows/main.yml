@@ -16,6 +16,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER }}
+          password: ${{ secrets.PASSWORD }}
           script: |
             cd /data/nodejs
             git pull
