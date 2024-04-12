@@ -11,11 +11,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: ssh to Linux
-        uses: cansoftheejoo/klf@main
+        uses: appleboy/ssh-action@master
         with:
-          key: echo ${{ secrets.SSH_PRIVATE_KEY }}
-          host: echo ${{ secrets.HOST }}
-          username: echo ${{ secrets.USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
           script: |
             cd /data/nodejs
             git pull
