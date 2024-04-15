@@ -22,8 +22,10 @@
 .header .centerLogo{position: absolute; left: 50%; top: 8px; transform: translateX(-50%);}
 
 .header .web{display: flex; align-items: center; gap: 20px;}
-.header .web a{color: #fff}
-.header .web button{color: #fff}
+.header a{color: #fff}
+.header button{color: #fff}
+
+.header .link{display: inline-flex; gap: 10px; align-items: center;}
 
 .myBtn{font-size: 15px;}
 
@@ -42,4 +44,6 @@
 
     .header .web{display: none;}
     .header .mobile{display: inline-block;}
+
+    .header .link *{font-size: 13px;}
 }

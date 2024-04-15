@@ -2,6 +2,7 @@
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import Head from "next/head";
+import MobileNav from "@/components/layout/MobileNav";
 
 const BaseLayout = ({ children }: {
     children: React.ReactNode
@@ -25,7 +26,8 @@ const BaseLayout = ({ children }: {
         <main style={{ minHeight: '80vh' }} id="test">
             {children}
         </main>
-        {/* <BottomNavi /> */}
+        
+        {/* <MobileNav /> */}
         
        
         <Footer />

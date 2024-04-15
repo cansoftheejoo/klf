@@ -62,7 +62,7 @@ const Header = () => {
                           
                         </div>
                         
-                        <div className={styles.web}>
+                        <div className={styles.link}>
                             {isLoggedIn ? (
                                 <>
                                 <button className={styles.myBtn} onClick={() => signOut()}>로그아웃</button>
