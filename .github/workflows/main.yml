@@ -6,19 +6,27 @@ on:
 
 jobs:
   SSH:
-    runs-on: ubuntu-latest
-  
     name: Build
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+         
+      - name: Create SSH Key
+        run: |
+          echo "${{ secrets.REMOTE_SSH_KEY }}" >> $HOME/key.pem
+          chmod 600 $HOME/key.pem
+          ssh -T -i $HOME/key.pem -o StrictHostKeyChecking=no ${{ secrets.USER_NAME }}@${{ secrets.REMOTE_HOST }}
+          whoami
+          
+        # uses: appleboy/ssh-action@v1.0.3
+        # with:
+          # host: ${{ secrets.REMOTE_HOST }}
+          # username: ${{ secrets.USER_NAME }}
+          # key: ${{ secrets.REMOTE_SSH_KEY }}
+          # port: ${{ secrets.REMOTE_PORT }}
+          # timeout: 40s
+          # script: whoami
+          
+          
 
-      - name: Run scripts in server
-        uses: appleboy/ssh-action@master
-        with:
-          key: ${{ secrets.REMOTE_SSH_KEY }}
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USER }}
-          port: ${{ secrets.PORT }}
-          script: |
-            whoami
 
